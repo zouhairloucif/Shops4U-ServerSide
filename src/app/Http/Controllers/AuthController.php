@@ -1,0 +1,123 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use Tymon\JWTAuth\Facades\JWTAuth;
+
+class AuthController extends Controller {
+    
+   /**
+     * Create a new AuthController instance.
+     *
+     * @return void
+     */
+
+   public function __construct() {
+
+    $this->middleware('jwt', ['except' => ['login']]);
+
+}
+
+    /**
+     * Get a JWT token via given credentials.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function login(Request $request) {
+
+        $credentials = $request->only(['email', 'password']);
+
+        if (!$token = $this->guard()->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        return $this->respondWithToken($token);
+
+    }
+
+    public function userOrFail(Request $request) {
+
+        try {
+            $user = auth()->userOrFail();
+            return $user;
+        } catch (\Tymon\JWTAuth\Exceptions\UserNotDefinedException $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
+
+    }
+
+    /**
+     * Get the authenticated User
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function me() {
+
+        return response()->json($this->guard()->user());
+
+    }
+
+    /**
+     * Log the user out (Invalidate the token)
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout() {
+
+    	$this->guard()->logout();
+
+    	return response()->json(['message' => 'Successfully logged out']);
+
+    }
+
+    /**
+     * Refresh a token.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function refresh() {
+
+    	return $this->respondWithToken($this->guard()->refresh());
+
+    }
+
+    /**
+     * Get the token array structure.
+     *
+     * @param  string $token
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function respondWithToken($token) {
+
+        $role_id = auth()->user()->role_id;
+        $role = \DB::table('roles')->where('id', $role_id)->pluck('nom');
+
+        return response()->json([
+          'access_token' => $token,
+          'token_type' => 'bearer',
+          'expires_in' => $this->guard()->factory()->getTTL() * 60,
+          'role' => $role,
+      ]);
+
+    }
+
+    /**
+     * Get the guard to be used during authentication.
+     *
+     * @return \Illuminate\Contracts\Auth\Guard
+     */
+    public function guard() {
+
+    	return Auth::guard();
+
+    }
+
+}
