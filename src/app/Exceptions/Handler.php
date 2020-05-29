@@ -44,11 +44,11 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception) {
 
         if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
-            return response()->json(['error' => 'Token is Invalid'], 400);
+            return response()->json(['error' => 'Token is Invalid'], 401);
         }else if ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
-            return response()->json(['error' => 'Token is Expired'], 400);
+            return response()->json(['error' => 'Token is Expired'], 401);
         } else if ( $exception instanceof \Tymon\JWTAuth\Exceptions\JWTException) {
-            return response()->json(['error' => 'There is problem with your token'], 400);
+            return response()->json(['error' => 'There is problem with your token'], 401);
         }
 
         return parent::render($request, $exception);
