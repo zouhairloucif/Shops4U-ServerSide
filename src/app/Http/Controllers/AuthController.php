@@ -100,12 +100,14 @@ class AuthController extends Controller {
 
         $role_id = auth()->user()->role_id;
         $role = \DB::table('roles')->where('id', $role_id)->pluck('nom');
+        $boutique = auth()->user()->boutique_id;
 
         return response()->json([
           'access_token' => $token,
           'token_type' => 'bearer',
           'expires_in' => $this->guard()->factory()->getTTL() * 60,
           'role' => $role,
+          'boutique' => $boutique,
       ]);
 
     }

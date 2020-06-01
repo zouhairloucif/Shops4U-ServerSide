@@ -17,8 +17,8 @@ class CreateZonesTable extends Migration
             $table->increments('id');
             $table->string('zone')->nullable();
             $table->string('status')->nullable();
-            $table->unsignedInteger('utilisateur_id');
-            $table->foreign('utilisateur_id')->references('id')->on('utilisateurs');
+            $table->unsignedInteger('boutique_id');
+            $table->foreign('boutique_id')->references('id')->on('boutiques');
             $table->timestamps();
         });
     }

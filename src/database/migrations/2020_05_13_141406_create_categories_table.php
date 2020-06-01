@@ -18,10 +18,10 @@ class CreateCategoriesTable extends Migration
             $table->string('nom')->nullable();
             $table->string('description')->nullable();
             $table->string('image')->nullable();
-            $table->unsignedInteger('utilisateur_id')->nullable();
+            $table->unsignedInteger('boutique_id');
             $table->unsignedInteger('parent')->nullable();
+            $table->foreign('boutique_id')->references('id')->on('boutiques');
             $table->foreign('parent')->references('id')->on('categories');
-            $table->foreign('utilisateur_id')->references('id')->on('utilisateurs');
             $table->timestamps();
         });
     }

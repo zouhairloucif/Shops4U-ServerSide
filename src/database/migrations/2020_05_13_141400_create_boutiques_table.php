@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTransporteursTable extends Migration
+class CreateBoutiquesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class CreateTransporteursTable extends Migration
      */
     public function up()
     {
-        Schema::create('transporteurs', function (Blueprint $table) {
+        Schema::create('boutiques', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nom')->nullable();
-            $table->string('Délai')->nullable();
-            $table->unsignedInteger('boutique_id');
-            $table->foreign('boutique_id')->references('id')->on('boutiques');
+            $table->string('logo')->nullable();
+            $table->string('url')->nullable();
+            $table->string('devise')->nullable();
+            $table->string('langue')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ class CreateTransporteursTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transporteurs');
+        Schema::dropIfExists('boutiques');
     }
 }

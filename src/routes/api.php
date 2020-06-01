@@ -31,7 +31,7 @@ Route::group([
 Route::group([
 	'prefix' => 'user'
 ], function ($router) {
-	Route::post('signup', 'UserController@signup');
+	Route::post('signup', 'BackOffice\UserController@signup');
 });
 
 /*===========================  Api Catalogue  ===========================*/
@@ -39,9 +39,9 @@ Route::group([
 Route::group([
 	'prefix' => 'category'
 ], function ($router) {
-	Route::get('all', 'CatalogueController@AllCategory');
-	Route::get('show/{id}', 'CatalogueController@showCategory');
-	Route::post('store', 'CatalogueController@StoreCategory');
-	Route::put('update/{id}', 'CatalogueController@UpdateCategory');
-	Route::delete('destroy/{id}', 'CatalogueController@DestroyCategory');
+	Route::get('all', 'BackOffice\CatalogueController@AllCategory');
+	Route::get('show/{id}', 'BackOffice\CatalogueController@showCategory');
+	Route::post('store', 'BackOffice\CatalogueController@StoreCategory');
+	Route::put('update/{id}', 'BackOffice\CatalogueController@UpdateCategory');
+	Route::delete('destroy/{id}', 'BackOffice\CatalogueController@DestroyCategory');
 });

@@ -18,8 +18,8 @@ class CreateMarquesTable extends Migration
             $table->string('nom');
             $table->string('description');
             $table->string('image');
-            $table->unsignedInteger('utilisateur_id');
-            $table->foreign('utilisateur_id')->references('id')->on('utilisateurs');
+            $table->unsignedInteger('boutique_id');
+            $table->foreign('boutique_id')->references('id')->on('boutiques');
             $table->timestamps();
         });
     }

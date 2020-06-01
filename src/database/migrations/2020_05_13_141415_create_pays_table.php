@@ -17,9 +17,9 @@ class CreatePaysTable extends Migration
             $table->increments('id');
             $table->string('pays')->nullable();
             $table->string('status')->nullable();
-            $table->unsignedInteger('utilisateur_id');
+            $table->unsignedInteger('boutique_id');
             $table->unsignedInteger('zone_id');
-            $table->foreign('utilisateur_id')->references('id')->on('utilisateurs');
+            $table->foreign('boutique_id')->references('id')->on('boutiques');
             $table->foreign('zone_id')->references('id')->on('zones');
             $table->timestamps();
         });

@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\BackOffice;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use App\Http\Controllers\Controller;
 
 class CatalogueController extends Controller {
 
     public function __construct() {
 
-        //$this->middleware('jwt');
+        $this->middleware('jwt');
 
     }
 

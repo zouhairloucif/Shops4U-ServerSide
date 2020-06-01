@@ -18,12 +18,15 @@ class CreateUtilisateursTable extends Migration
             $table->string('nom')->nullable();
             $table->string('prenom')->nullable();
             $table->string('email', 250)->unique();
+            $table->string('telephone')->nullable();
             $table->string('password')->nullable();
             $table->string('status')->nullable();
             $table->integer('profil_id')->unsigned()->nullable();
             $table->integer('role_id')->unsigned()->nullable();
+            $table->integer('boutique_id')->unsigned()->nullable();
             $table->foreign('profil_id')->references('id')->on('profils');
             $table->foreign('role_id')->references('id')->on('roles');
+            $table->foreign('boutique_id')->references('id')->on('boutiques');
             $table->timestamps();
         });
     }
