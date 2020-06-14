@@ -15,10 +15,10 @@ class CreateMarquesTable extends Migration
     {
         Schema::create('marques', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nom');
-            $table->string('description');
-            $table->string('image');
-            $table->unsignedInteger('boutique_id');
+            $table->string('nom')->nullable();
+            $table->string('description')->nullable();
+            $table->string('image')->nullable();
+            $table->unsignedInteger('boutique_id')->nullable();
             $table->foreign('boutique_id')->references('id')->on('boutiques');
             $table->timestamps();
         });

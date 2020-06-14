@@ -17,11 +17,11 @@ class AuthController extends Controller {
      */
 
 
-   public function __construct() {
+    public function __construct() {
 
-    $this->middleware('jwt', ['except' => ['login']]);
+        $this->middleware('jwt', ['except' => ['login']]);
 
-}
+    }
 
     /**
      * Get a JWT token via given credentials.
@@ -50,6 +50,18 @@ class AuthController extends Controller {
             return $user;
         } catch (\Tymon\JWTAuth\Exceptions\UserNotDefinedException $e) {
             return response()->json(['error' => $e->getMessage()]);
+        }
+
+    }
+
+
+    public function isValid(Request $request) {
+
+        try {
+            $user = auth()->userOrFail();
+            return true;
+        } catch (\Tymon\JWTAuth\Exceptions\UserNotDefinedException $e) {
+            return false;
         }
 
     }
@@ -101,6 +113,7 @@ class AuthController extends Controller {
         $role_id = auth()->user()->role_id;
         $role = \DB::table('roles')->where('id', $role_id)->pluck('nom');
         $boutique = auth()->user()->boutique_id;
+        $profil = auth()->user()->profil_id;
 
         return response()->json([
           'access_token' => $token,
@@ -108,6 +121,7 @@ class AuthController extends Controller {
           'expires_in' => $this->guard()->factory()->getTTL() * 60,
           'role' => $role,
           'boutique' => $boutique,
+          'profil' => $profil,
       ]);
 
     }

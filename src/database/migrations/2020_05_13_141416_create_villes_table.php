@@ -16,6 +16,7 @@ class CreateVillesTable extends Migration
         Schema::create('villes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('ville')->nullable();
+            $table->string('status')->nullable();
             $table->unsignedInteger('boutique_id');
             $table->unsignedInteger('pays_id');
             $table->foreign('boutique_id')->references('id')->on('boutiques');

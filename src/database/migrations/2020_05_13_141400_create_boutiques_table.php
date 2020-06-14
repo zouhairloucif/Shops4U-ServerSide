@@ -21,6 +21,8 @@ class CreateBoutiquesTable extends Migration
             $table->string('devise')->nullable();
             $table->string('langue')->nullable();
             $table->string('status')->nullable();
+            $table->integer('maintenance_id')->unsigned()->nullable();
+            $table->foreign('maintenance_id')->references('id')->on('maintenances');
             $table->timestamps();
         });
     }

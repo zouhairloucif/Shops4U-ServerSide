@@ -15,11 +15,11 @@ class CreateFournisseursTable extends Migration
     {
         Schema::create('fournisseurs', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('telephone');
-            $table->string('mail');
-            $table->string('adresse');
-            $table->unsignedInteger('boutique_id');
+            $table->string('nom')->nullable();
+            $table->string('telephone')->nullable();
+            $table->string('email')->nullable();
+            $table->string('adresse')->nullable();
+            $table->unsignedInteger('boutique_id')->nullable();
             $table->foreign('boutique_id')->references('id')->on('boutiques');
             $table->timestamps();
         });
