@@ -19,6 +19,7 @@ class CreateFournisseursTable extends Migration
             $table->string('telephone')->nullable();
             $table->string('email')->nullable();
             $table->string('adresse')->nullable();
+            $table->string('status')->nullable();
             $table->unsignedInteger('boutique_id')->nullable();
             $table->foreign('boutique_id')->references('id')->on('boutiques');
             $table->timestamps();

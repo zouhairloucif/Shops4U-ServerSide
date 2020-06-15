@@ -18,6 +18,7 @@ class CreateMarquesTable extends Migration
             $table->string('nom')->nullable();
             $table->string('description')->nullable();
             $table->string('image')->nullable();
+            $table->string('status')->nullable();
             $table->unsignedInteger('boutique_id')->nullable();
             $table->foreign('boutique_id')->references('id')->on('boutiques');
             $table->timestamps();

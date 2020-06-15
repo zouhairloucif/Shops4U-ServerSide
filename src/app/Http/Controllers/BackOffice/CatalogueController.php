@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use DB;
 
 class CatalogueController extends Controller {
 
@@ -268,9 +271,17 @@ class CatalogueController extends Controller {
 
     public function AllMarque() {
 
-        $Marques = \App\Marque::all();
+        $id = $this->guard()->user()->boutique_id;
 
-        return $Marques;
+        if($id) {
+
+            $Marques = DB::table('marques')
+            ->where('marques.boutique_id', '=', $id)
+            ->get();
+
+            return $Marques;
+
+        }
 
     }
 
@@ -290,23 +301,30 @@ class CatalogueController extends Controller {
 
     public function StoreMarque(Request $request) {
 
-        $Marque = new \App\Marque;
+        $id = $this->guard()->user()->boutique_id;
 
-        $Marque->nom = $request->input('nom');
-        $Marque->description = $request->input('description');
-        $Marque->boutique_id = $request->input('boutique_id');
-        $Marque->save();
+        if($id) {
 
-        $image = $request->file('image');
+            $Marque = new \App\Marque;
 
-        if( $image ) {
-            $extension = $image->getClientOriginalExtension();
-            Storage::disk('public')->put('Marque/Marque-'.$Marque->id.'.'.$extension,  File::get($image));
-            $Marque->image = 'Marque-'.$Marque->id;
-            $Marque->update();
+            $Marque->nom = $request->input('nom');
+            $Marque->description = $request->input('description');
+            $Marque->status = $request->input('status');
+            $Marque->boutique_id = $id;
+            $Marque->save();
+
+            $image = $request->file('image');
+
+            if( $image ) {
+                $extension = $image->getClientOriginalExtension();
+                Storage::disk('public')->put('Marque/Marque-'.$Marque->id.'.'.$extension,  File::get($image));
+                $Marque->image = 'Marque-'.$Marque->id;
+                $Marque->update();
+            }
+
+            return response()->json(array('id' => $Marque->id), 200);
+
         }
-
-        return response()->json(array('id' => $Marque->id), 200);
 
     }
 
@@ -355,5 +373,10 @@ class CatalogueController extends Controller {
 
     }
 
+    public function guard() {
+
+        return Auth::guard();
+
+    }
 
 }

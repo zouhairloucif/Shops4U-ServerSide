@@ -18,6 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->string('nom')->nullable();
             $table->string('description')->nullable();
             $table->string('image')->nullable();
+            $table->string('status')->nullable();
             $table->unsignedInteger('boutique_id');
             $table->unsignedInteger('parent')->nullable();
             $table->foreign('boutique_id')->references('id')->on('boutiques');
