@@ -44,12 +44,16 @@ class UserController extends Controller {
 		$Profil->image = 'Profil-0.jpg';
 		$Profil->save();
 
+		$Boutique = new \App\Boutique;
+		$Boutique->save();
+
 		$user = User::create([
 			'email' => $request->email,
 			'password' => bcrypt($request->password),
 			'status' => true,
 			'role_id' => $request->role_id,
 			'profil_id' => $Profil->id,
+			'boutique_id' => $Boutique->id,
 		]);
 
 		$token = $this->guard()->login($user);
@@ -64,7 +68,7 @@ class UserController extends Controller {
 
 		$Profils = new \App\Profil;
 
-		$Profil = $Profils::find($user->id);
+		$Profil = $Profils::find($user->profil_id);
 
 		if($Profil) {
 			$Profil->nom = $request->input('nom');
@@ -80,6 +84,7 @@ class UserController extends Controller {
 		$image = $request->file('image');
 
 		if( $image ) {
+
 			$extension = $image->getClientOriginalExtension();
 			Storage::disk('public')->put('Profil/Profil-'.$Profil->id.'.'.$extension,  File::get($image));
 			$Profil->image = 'Profil-'.$Profil->id.'.'.$extension;

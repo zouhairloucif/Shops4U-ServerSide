@@ -18,7 +18,9 @@ class BoutiqueController extends Controller {
 
 	}
 
-	public function showboutique($id) {
+	public function showboutique() {
+
+		$id = $this->guard()->user()->boutique_id;
 
 		$Boutiques = new \App\Boutique;
 
@@ -64,13 +66,13 @@ class BoutiqueController extends Controller {
 
 	}
 
-	public function UpdateBoutique(Request $request, $id) {
+	public function UpdateBoutique(Request $request) {
+
+		$id = $this->guard()->user()->boutique_id;
 
 		$Boutiques = new \App\Boutique;
 
 		$Boutique = $Boutiques::find($id);
-
-		//return $request->all();
 
 		if($Boutique) {
 
@@ -113,8 +115,7 @@ class BoutiqueController extends Controller {
 			if($maintenance_id) {
 
 				$Maintenances = new \App\Maintenance;
-
-				$Maintenance = $Maintenances::find($id);
+				$Maintenance = $Maintenances::find($maintenance_id);
 
 				return $Maintenance;
 

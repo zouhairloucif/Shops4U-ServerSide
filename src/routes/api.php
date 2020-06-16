@@ -91,9 +91,9 @@ Route::group([
 	'prefix' => 'boutique'
 ], function ($router) {
 	Route::post('store', 'BackOffice\BoutiqueController@StoreBoutique');
-	Route::get('show/{id}', 'BackOffice\BoutiqueController@showBoutique');
-	Route::post('update/{id}', 'BackOffice\BoutiqueController@UpdateBoutique');
-	Route::get('show-maintenance', 'BackOffice\BoutiqueController@showMaintenance');
+	Route::get('show', 'BackOffice\BoutiqueController@showBoutique');
+	Route::post('update', 'BackOffice\BoutiqueController@UpdateBoutique');
+	Route::get('maintenance/show', 'BackOffice\BoutiqueController@showMaintenance');
 	Route::post('maintenance', 'BackOffice\BoutiqueController@maintenance');
 });
 
