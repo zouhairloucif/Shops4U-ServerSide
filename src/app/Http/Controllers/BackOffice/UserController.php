@@ -19,6 +19,8 @@ class UserController extends Controller {
 
 	}
 
+	/* Admin */
+
 	public function showUser() {
 		
 		$id = $this->guard()->user()->id;
@@ -110,6 +112,17 @@ class UserController extends Controller {
 			'boutique' => $boutique,
 			'profil' => $profil,
 		]);
+
+	}
+
+	/* Super Admin */
+
+	public function allUser() {
+		
+		$Utilisateurs = DB::table('utilisateurs')
+		->get();
+
+		return $Utilisateurs;
 
 	}
 

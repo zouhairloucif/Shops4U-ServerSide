@@ -35,6 +35,7 @@ Route::group([
 	Route::get('show', 'BackOffice\UserController@showUser');
 	Route::post('signup', 'BackOffice\UserController@signup');
 	Route::post('update', 'BackOffice\UserController@UpdateUser');
+	Route::get('all', 'BackOffice\UserController@allUser');
 });
 
 /*===========================  Api Catalogue  ===========================*/

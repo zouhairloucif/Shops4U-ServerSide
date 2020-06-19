@@ -56,7 +56,7 @@ class CatalogueController extends Controller {
         if( $image ) {
             $extension = $image->getClientOriginalExtension();
             Storage::disk('public')->put('Category/Category-'.$NewCategory->id.'.'.$extension,  File::get($image));
-            $NewCategory->image = 'Category-'.$NewCategory->id;
+            $NewCategory->image = 'Category-'.$NewCategory->id.'.'.$extension;
             $NewCategory->update();
         }
 
@@ -83,7 +83,7 @@ class CatalogueController extends Controller {
             if( $image ) {
                 $extension = $image->getClientOriginalExtension();
                 Storage::disk('public')->put('Category/Category-'.$Category->id.'.'.$extension,  File::get($image));
-                $Category->image = 'Category-'.$Category->id;
+                $Category->image = 'Category-'.$Category->id.'.'.$extension;
                 $Category->update();
             }
 
@@ -193,9 +193,17 @@ class CatalogueController extends Controller {
 
     public function AllFournisseur() {
 
-        $Fournisseurs = \App\Fournisseur::all();
+        $id = $this->guard()->user()->boutique_id;
 
-        return $Fournisseurs;
+        if($id) {
+
+            $Fournisseurs = DB::table('fournisseurs')
+            ->where('fournisseurs.boutique_id', '=', $id)
+            ->get();
+
+            return $Fournisseurs;
+
+        }
 
     }
 
@@ -215,16 +223,23 @@ class CatalogueController extends Controller {
 
     public function StoreFournisseur(Request $request) {
 
-        $Fournisseur = new \App\Fournisseur;
+        $id = $this->guard()->user()->boutique_id;
 
-        $Fournisseur->nom = $request->input('nom');
-        $Fournisseur->telephone = $request->input('telephone');
-        $Fournisseur->email = $request->input('email');
-        $Fournisseur->adresse = $request->input('adresse');
-        $Fournisseur->boutique_id = $request->input('boutique_id');
-        $Fournisseur->save();
+        if($id) {
 
-        return response()->json(array('id' => $Fournisseur->id), 200);
+            $Fournisseur = new \App\Fournisseur;
+
+            $Fournisseur->nom = $request->input('nom');
+            $Fournisseur->telephone = $request->input('telephone');
+            $Fournisseur->email = $request->input('email');
+            $Fournisseur->adresse = $request->input('adresse');
+            $Fournisseur->status = $request->input('status');
+            $Fournisseur->boutique_id = $id;
+            $Fournisseur->save();
+
+            return response()->json(array('id' => $Fournisseur->id), 200);
+
+        }
 
     }
 
@@ -279,6 +294,12 @@ class CatalogueController extends Controller {
             ->where('marques.boutique_id', '=', $id)
             ->get();
 
+            for ($i=0; $i < count($Marques) ; $i++) { 
+                if($Marques[$i]->image){
+                    $Marques[$i]->image = "http://localhost/Shops4U/src/storage/app/public/Marque/".$Marques[$i]->image;
+                }
+            }
+
             return $Marques;
 
         }
@@ -318,7 +339,7 @@ class CatalogueController extends Controller {
             if( $image ) {
                 $extension = $image->getClientOriginalExtension();
                 Storage::disk('public')->put('Marque/Marque-'.$Marque->id.'.'.$extension,  File::get($image));
-                $Marque->image = 'Marque-'.$Marque->id;
+                $Marque->image = 'Marque-'.$Marque->id.'.'.$extension;
                 $Marque->update();
             }
 
@@ -346,7 +367,7 @@ class CatalogueController extends Controller {
             if( $image ) {
                 $extension = $image->getClientOriginalExtension();
                 Storage::disk('public')->put('Marque/Marque-'.$Marque->id.'.'.$extension,  File::get($image));
-                $Marque->image = 'Marque-'.$Marque->id;
+                $Marque->image = 'Marque-'.$Marque->id.'.'.$extension;
                 $Marque->update();
             }
 
