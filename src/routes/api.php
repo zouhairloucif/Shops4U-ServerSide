@@ -41,7 +41,7 @@ Route::group([
 /*===========================  Api Catalogue  ===========================*/
 
 Route::group([
-	'prefix' => 'category'
+	'prefix' => 'categorie'
 ], function ($router) {
 	Route::get('all', 'BackOffice\CatalogueController@AllCategory');
 	Route::get('show/{id}', 'BackOffice\CatalogueController@showCategory');
@@ -117,4 +117,6 @@ Route::group([
 	Route::get('pays/all', 'BackOffice\LivraisonController@allPays');
 	Route::post('ville/store', 'BackOffice\LivraisonController@storeVille');
 	Route::get('ville/all', 'BackOffice\LivraisonController@allVille');
+	Route::post('transporteur/store', 'BackOffice\LivraisonController@storeTransporteur');
+	Route::get('transporteur/all', 'BackOffice\LivraisonController@allTransporteur');
 });

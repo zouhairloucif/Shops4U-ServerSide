@@ -18,6 +18,61 @@ class LivraisonController extends Controller {
 
     }
 
+    /* Transporteur */
+
+    public function allTransporteur() {
+
+        $id = $this->guard()->user()->boutique_id;
+
+        if($id) {
+
+            $Transporteurs = DB::table('transporteurs')
+            ->where('transporteurs.boutique_id', '=', $id)
+            ->get();
+
+            for ($i=0; $i < count($Transporteurs) ; $i++) { 
+                if($Transporteurs[$i]->image){
+                    $Transporteurs[$i]->image = "http://localhost/Shops4U/src/storage/app/public/Transporteur/".$Transporteurs[$i]->image;
+                }
+            }
+
+            return $Transporteurs;
+
+        }
+
+    }
+
+    public function storeTransporteur(Request $request) {
+
+        $id = $this->guard()->user()->boutique_id;
+
+        if($id) {
+
+            $Transporteur = new \App\Transporteur;
+            $Transporteur->nom = $request->input('nom');
+            $Transporteur->type = $request->input('type');
+            $Transporteur->delai = $request->input('delai');
+            $Transporteur->status = $request->input('status');
+            $Transporteur->boutique_id = $id;
+            $Transporteur->save();
+
+            $image = $request->file('image');
+
+            if( $image ) {
+                $extension = $image->getClientOriginalExtension();
+                Storage::disk('public')->put('Transporteur/Transporteur-'.$Transporteur->id.'.'.$extension,  File::get($image));
+                $Transporteur->image = 'Transporteur-'.$Transporteur->id.'.'.$extension;
+                $Transporteur->update();
+            }
+
+            return response()->json(array('id' => $Transporteur->id), 200);
+
+        }
+
+    }
+
+    /* Zone */
+
     public function allZone() {
 
         $id = $this->guard()->user()->boutique_id;
@@ -29,38 +84,6 @@ class LivraisonController extends Controller {
             ->get();
 
             return $Zones;
-
-        }
-
-    }
-
-    public function allPays() {
-
-        $id = $this->guard()->user()->boutique_id;
-
-        if($id) {
-
-            $Pays = DB::table('pays')
-            ->where('pays.boutique_id', '=', $id)
-            ->get();
-
-            return $Pays;
-
-        }
-
-    }
-
-    public function allVille() {
-
-        $id = $this->guard()->user()->boutique_id;
-
-        if($id) {
-
-            $Ville = DB::table('villes')
-            ->where('villes.boutique_id', '=', $id)
-            ->get();
-
-            return $Ville;
 
         }
 
@@ -84,8 +107,65 @@ class LivraisonController extends Controller {
 
     }
 
+
+    /* Ville */
+
+    public function allVille() {
+
+        $id = $this->guard()->user()->boutique_id;
+
+        if($id) {
+
+            $Ville = DB::table('villes')
+            ->where('villes.boutique_id', '=', $id)
+            ->get();
+
+            return $Ville;
+
+        }
+
+    }
+
+    public function storeVille(Request $request) {
+
+        $id = $this->guard()->user()->boutique_id;
+
+        if($id) {
+
+            $Ville = new \App\Ville;
+            $Ville->ville = $request->input('ville');
+            $Ville->status = $request->input('status');
+            $Ville->boutique_id = $id;
+            $Ville->pays_id = $request->input('pays_id');
+            $Ville->save();
+
+            return response()->json(array('id' => $Ville->id), 200);
+
+        }
+
+    }
+
+
+    /* Pays */
+
+    public function allPays() {
+
+        $id = $this->guard()->user()->boutique_id;
+
+        if($id) {
+
+            $Pays = DB::table('pays')
+            ->where('pays.boutique_id', '=', $id)
+            ->get();
+
+            return $Pays;
+
+        }
+
+    }
+
     public function storePays(Request $request) {
-        
+
         $id = $this->guard()->user()->boutique_id;
 
         if($id) {
@@ -103,24 +183,6 @@ class LivraisonController extends Controller {
 
     }
 
-    public function storeVille(Request $request) {
-        
-        $id = $this->guard()->user()->boutique_id;
-
-        if($id) {
-
-            $Ville = new \App\Ville;
-            $Ville->ville = $request->input('ville');
-            $Ville->status = $request->input('status');
-            $Ville->boutique_id = $id;
-            $Ville->pays_id = $request->input('pays_id');
-            $Ville->save();
-
-            return response()->json(array('id' => $Ville->id), 200);
-
-        }
-
-    }
 
     public function guard() {
 

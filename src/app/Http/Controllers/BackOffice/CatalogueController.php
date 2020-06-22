@@ -22,9 +22,18 @@ class CatalogueController extends Controller {
 
     public function AllCategory() {
 
-        $categories = \App\Categorie::all();
 
-        return $categories;
+        $id = $this->guard()->user()->boutique_id;
+
+        if($id) {
+
+            $Categories = DB::table('categories')
+            ->where('categories.boutique_id', '=', $id)
+            ->get();
+
+            return $Categories;
+
+        }
 
     }
 
@@ -44,23 +53,30 @@ class CatalogueController extends Controller {
 
     public function StoreCategory(Request $request) {
 
-        $NewCategory = new \App\Categorie;
-        $NewCategory->nom = $request->input('nom');
-        $NewCategory->description = $request->input('description');
-        $NewCategory->utilisateur_id = $request->input('utilisateur_id');
-        $NewCategory->parent = $request->input('parent');
-        $ReCategory = $NewCategory->save();
+        $id = $this->guard()->user()->boutique_id;
 
-        $image = $request->file('image');
+        if($id) {
 
-        if( $image ) {
-            $extension = $image->getClientOriginalExtension();
-            Storage::disk('public')->put('Category/Category-'.$NewCategory->id.'.'.$extension,  File::get($image));
-            $NewCategory->image = 'Category-'.$NewCategory->id.'.'.$extension;
-            $NewCategory->update();
+            $NewCategory = new \App\Categorie;
+            $NewCategory->nom = $request->input('nom');
+            $NewCategory->description = $request->input('description');
+            $NewCategory->status = $request->input('status');
+            $NewCategory->parent = $request->input('parent');
+            $NewCategory->boutique_id = $id;
+            $ReCategory = $NewCategory->save();
+
+            $image = $request->file('image');
+
+            if( $image ) {
+                $extension = $image->getClientOriginalExtension();
+                Storage::disk('public')->put('Category/Category-'.$NewCategory->id.'.'.$extension,  File::get($image));
+                $NewCategory->image = 'Category-'.$NewCategory->id.'.'.$extension;
+                $NewCategory->update();
+            }
+
+            return response()->json(array('id' => $NewCategory->id), 200);
+
         }
-
-        return response()->json(array('id' => $NewCategory->id), 200);
 
     }
 
@@ -134,18 +150,23 @@ class CatalogueController extends Controller {
 
     public function StoreReduction(Request $request) {
 
-        $Reduction = new \App\Reduction;
+        $id = $this->guard()->user()->boutique_id;
 
-        $Reduction->nom = $request->input('nom');
-        $Reduction->description = $request->input('description');
-        $Reduction->code = $request->input('code');
-        $Reduction->quantite_disponible = $request->input('quantite_disponible');
-        $Reduction->valeur_reduction = $request->input('valeur_reduction');
-        $Reduction->status = $request->input('status');
-        $Reduction->boutique_id = $request->input('boutique_id');
-        $Reduction->save();
+        if($id) {
 
-        return response()->json(array('id' => $Reduction->id), 200);
+            $Reduction = new \App\Reduction;
+            $Reduction->nom = $request->input('nom');
+            $Reduction->description = $request->input('description');
+            $Reduction->code = $request->input('code');
+            $Reduction->quantite = $request->input('quantite');
+            $Reduction->valide = $request->input('valide');
+            $Reduction->status = $request->input('status');
+            $Reduction->boutique_id = $id;
+            $Reduction->save();
+
+            return response()->json(array('id' => $Reduction->id), 200);
+
+        }
 
     }
 
@@ -160,8 +181,8 @@ class CatalogueController extends Controller {
             $Reduction->nom = $request->input('nom');
             $Reduction->description = $request->input('description');
             $Reduction->code = $request->input('code');
-            $Reduction->quantite_disponible = $request->input('quantite_disponible');
-            $Reduction->valeur_reduction = $request->input('valeur_reduction');
+            $Reduction->quantite = $request->input('quantite');
+            $Reduction->valide = $request->input('valide');
             $Reduction->status = $request->input('status');
             $Reduction->boutique_id = $request->input('boutique_id');
             $Reduction->update();

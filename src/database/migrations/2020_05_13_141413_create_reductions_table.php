@@ -18,9 +18,8 @@ class CreateReductionsTable extends Migration
             $table->string('nom')->nullable();
             $table->string('description')->nullable();
             $table->string('code')->nullable();
-            $table->integer('quantite_disponible')->nullable();
-            $table->string('type_reduction')->nullable();
-            $table->integer('valeur_reduction')->nullable();
+            $table->integer('quantite')->nullable();
+            $table->date('valide')->nullable();
             $table->string('status')->nullable();
             $table->unsignedInteger('boutique_id')->nullable();
             $table->foreign('boutique_id')->references('id')->on('boutiques');

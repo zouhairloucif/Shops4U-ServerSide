@@ -16,7 +16,10 @@ class CreateTransporteursTable extends Migration
         Schema::create('transporteurs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nom')->nullable();
-            $table->string('Délai')->nullable();
+            $table->string('type')->nullable();
+            $table->string('delai')->nullable();
+            $table->string('image')->nullable();
+            $table->string('status')->nullable();
             $table->unsignedInteger('boutique_id');
             $table->foreign('boutique_id')->references('id')->on('boutiques');
             $table->timestamps();
