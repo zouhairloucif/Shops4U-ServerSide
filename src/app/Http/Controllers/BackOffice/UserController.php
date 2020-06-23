@@ -115,16 +115,6 @@ class UserController extends Controller {
 
 	}
 
-	/* Super Admin */
-
-	public function allUser() {
-		
-		$Utilisateurs = DB::table('utilisateurs')
-		->get();
-
-		return $Utilisateurs;
-
-	}
 
 	public function guard() {
 

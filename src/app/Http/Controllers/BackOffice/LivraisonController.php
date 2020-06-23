@@ -67,33 +67,56 @@ class LivraisonController extends Controller {
 
             $LivraisonJson = json_decode($request->get('Livraison'));
 
-            for ($i=0; $i < count($LivraisonJson) ; $i++) { 
+            if($LivraisonJson) {
 
-                $Livraison = new \App\Livraison;
-                $Livraison->transporteur_id = $Transporteur->id;
-                $Livraison->prix = $LivraisonJson[$i]->val;
+                for ($i=0; $i < count($LivraisonJson) ; $i++) { 
 
-                if("zone"==$request->input('type')) {
-                    $Livraison->zone_id = $LivraisonJson[$i]->id;
-                }
+                    $Livraison = new \App\Livraison;
+                    $Livraison->transporteur_id = $Transporteur->id;
+                    $Livraison->prix = $LivraisonJson[$i]->val;
 
-                if("pays"==$request->input('type')) {
-                    $Livraison->pays_id = $LivraisonJson[$i]->id;
-                }
+                    if("zone"==$request->input('type')) {
+                        $Livraison->zone_id = $LivraisonJson[$i]->id;
+                    }
 
-                if("ville"==$request->input('type')) {
-                    $Livraison->ville_id = $LivraisonJson[$i]->id;
-                }
-                
-                $Livraison->save();
+                    if("pays"==$request->input('type')) {
+                        $Livraison->pays_id = $LivraisonJson[$i]->id;
+                    }
+
+                    if("ville"==$request->input('type')) {
+                        $Livraison->ville_id = $LivraisonJson[$i]->id;
+                    }
+                    
+                    $Livraison->save();
                
-            }
+                }
 
-            return response()->json(array('id' => $LivraisonJson[0]->val), 200);
+            }
 
             return response()->json(array('id' => $Transporteur->id), 200);
 
         }
+
+    }
+
+    public function DeleteTransporteur($id) {
+
+        $Transporteurs = new \App\Transporteur;
+
+        $Transporteur = $Transporteurs::find($id);
+
+        $Result = false;
+
+        if($Transporteur) {
+
+            $livraisons = DB::table('livraisons')
+            ->where('livraisons.transporteur_id', '=', $id)
+            ->delete();
+
+            $Result = $Transporteur->delete();
+        }
+
+        return response()->json($Result);
 
     }
 

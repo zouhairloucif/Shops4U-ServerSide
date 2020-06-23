@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-/*===========================  Api Auth  ===========================*/
+/*-------  Api Auth  -------*/
 
 Route::group([
 	'prefix' => 'auth'
@@ -27,7 +27,7 @@ Route::group([
 
 });
 
-/*===========================  Api user  ===========================*/
+/*-------  Api user  -------*/
 
 Route::group([
 	'prefix' => 'user'
@@ -35,10 +35,9 @@ Route::group([
 	Route::get('show', 'BackOffice\UserController@showUser');
 	Route::post('signup', 'BackOffice\UserController@signup');
 	Route::post('update', 'BackOffice\UserController@UpdateUser');
-	Route::get('all', 'BackOffice\UserController@allUser');
 });
 
-/*===========================  Api Catalogue  ===========================*/
+/*-------  Api Catalogue  -------*/
 
 Route::group([
 	'prefix' => 'categorie'
@@ -50,7 +49,7 @@ Route::group([
 	Route::delete('destroy/{id}', 'BackOffice\CatalogueController@DestroyCategory');
 });
 
-/*===========================  Api Catalogue  ===========================*/
+/*-------  Api Catalogue  -------*/
 
 Route::group([
 	'prefix' => 'reduction'
@@ -62,7 +61,7 @@ Route::group([
 	Route::delete('destroy/{id}', 'BackOffice\CatalogueController@DestroyReduction');
 });
 
-/*===========================  Api Catalogue  ===========================*/
+/*-------  Api Catalogue  -------*/
 
 Route::group([
 	'prefix' => 'fournisseur'
@@ -74,7 +73,7 @@ Route::group([
 	Route::delete('destroy/{id}', 'BackOffice\CatalogueController@DestroyFournisseur');
 });
 
-/*===========================  Api Marque  ===========================*/
+/*-------  Api Marque  -------*/
 
 Route::group([
 	'prefix' => 'marque'
@@ -86,7 +85,7 @@ Route::group([
 	Route::delete('destroy/{id}', 'BackOffice\CatalogueController@DestroyMarque');
 });
 
-/*===========================  Api Boutique  ===========================*/
+/*-------  Api Boutique  -------*/
 
 Route::group([
 	'prefix' => 'boutique'
@@ -98,7 +97,7 @@ Route::group([
 	Route::post('maintenance', 'BackOffice\BoutiqueController@maintenance');
 });
 
-/*===========================  Api Paiement  ===========================*/
+/*-------  Api Paiement  -------*/
 
 Route::group([
 	'prefix' => 'paiement'
@@ -106,7 +105,7 @@ Route::group([
 	Route::get('mode-paiements', 'BackOffice\PaiementController@modePaiements');
 });
 
-/*===========================  Api Livraison  ===========================*/
+/*-------  Api Livraison  -------*/
 
 Route::group([
 	'prefix' => 'livraison'
@@ -119,4 +118,14 @@ Route::group([
 	Route::get('ville/all', 'BackOffice\LivraisonController@allVille');
 	Route::post('transporteur/store', 'BackOffice\LivraisonController@storeTransporteur');
 	Route::get('transporteur/all', 'BackOffice\LivraisonController@allTransporteur');
+	Route::delete('transporteur/delete/{id}', 'BackOffice\LivraisonController@DeleteTransporteur');
+});
+
+/*******************  Super admin *******************/
+
+Route::group([
+	'prefix' => 'sa/user'
+], function ($router) {
+	Route::get('all', 'BackOffice\SaUserController@allUser');
+	Route::get('add', 'BackOffice\SaUserController@addUser');
 });
