@@ -65,6 +65,32 @@ class LivraisonController extends Controller {
                 $Transporteur->update();
             }
 
+            $LivraisonJson = json_decode($request->get('Livraison'));
+
+            for ($i=0; $i < count($LivraisonJson) ; $i++) { 
+
+                $Livraison = new \App\Livraison;
+                $Livraison->transporteur_id = $Transporteur->id;
+                $Livraison->prix = $LivraisonJson[$i]->val;
+
+                if("zone"==$request->input('type')) {
+                    $Livraison->zone_id = $LivraisonJson[$i]->id;
+                }
+
+                if("pays"==$request->input('type')) {
+                    $Livraison->pays_id = $LivraisonJson[$i]->id;
+                }
+
+                if("ville"==$request->input('type')) {
+                    $Livraison->ville_id = $LivraisonJson[$i]->id;
+                }
+                
+                $Livraison->save();
+               
+            }
+
+            return response()->json(array('id' => $LivraisonJson[0]->val), 200);
+
             return response()->json(array('id' => $Transporteur->id), 200);
 
         }
