@@ -19,12 +19,18 @@ class CreateCategoriesTable extends Migration
             $table->string('description')->nullable();
             $table->string('image')->nullable();
             $table->string('status')->nullable();
-            $table->unsignedInteger('boutique_id');
+            $table->unsignedInteger('boutique_id')->nullable();;
             $table->unsignedInteger('parent')->nullable();
             $table->foreign('boutique_id')->references('id')->on('boutiques');
             $table->foreign('parent')->references('id')->on('categories');
             $table->timestamps();
         });
+
+        // Insert Categories
+        DB::table('categories')->insert(
+            array(['nom' => 'Accueil', 'description' => 'Accueil (Catégorie racine)'])
+        );
+        
     }
 
     /**

@@ -121,6 +121,12 @@ Route::group([
 	Route::delete('transporteur/delete/{id}', 'BackOffice\LivraisonController@DeleteTransporteur');
 });
 
+Route::group([
+	'prefix' => 'client'
+], function ($router) {
+	Route::get('all', 'BackOffice\ClientsController@all');
+});
+
 /*******************  Super admin *******************/
 
 Route::group([
