@@ -17,7 +17,8 @@ class SaUserController extends Controller {
 		
 		$Utilisateurs = DB::table('utilisateurs')
 		->join('profils', 'profils.id', '=', 'utilisateurs.profil_id')
-		->select('utilisateurs.email', 'profils.*')
+		->join('roles', 'roles.id', '=', 'utilisateurs.role_id')
+		->select('utilisateurs.email', 'profils.*','roles.nom as role')
 		->get();
 
 		return $Utilisateurs;
