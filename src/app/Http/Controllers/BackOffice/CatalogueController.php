@@ -158,6 +158,7 @@ class CatalogueController extends Controller {
             $Reduction->nom = $request->input('nom');
             $Reduction->description = $request->input('description');
             $Reduction->code = $request->input('code');
+            $Reduction->value = $request->input('value');
             $Reduction->quantite = $request->input('quantite');
             $Reduction->valide = $request->input('valide');
             $Reduction->status = $request->input('status');

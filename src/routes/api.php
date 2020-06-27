@@ -125,6 +125,7 @@ Route::group([
 	'prefix' => 'client'
 ], function ($router) {
 	Route::get('all', 'BackOffice\ClientsController@all');
+	Route::post('store', 'BackOffice\ClientsController@store');
 });
 
 /*******************  Super admin *******************/

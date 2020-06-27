@@ -18,6 +18,7 @@ class CreateReductionsTable extends Migration
             $table->string('nom')->nullable();
             $table->string('description')->nullable();
             $table->string('code')->nullable();
+            $table->string('value')->nullable();
             $table->integer('quantite')->nullable();
             $table->date('valide')->nullable();
             $table->string('status')->nullable();
