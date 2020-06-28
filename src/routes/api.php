@@ -37,6 +37,15 @@ Route::group([
 	Route::post('update', 'BackOffice\UserController@UpdateUser');
 });
 
+/*-------  Api Produits  -------*/
+
+Route::group([
+	'prefix' => 'produit'
+], function ($router) {
+	Route::get('all', 'BackOffice\CatalogueController@AllProduits');
+	Route::post('store', 'BackOffice\CatalogueController@StoreProduit');
+});
+
 /*-------  Api Catalogue  -------*/
 
 Route::group([

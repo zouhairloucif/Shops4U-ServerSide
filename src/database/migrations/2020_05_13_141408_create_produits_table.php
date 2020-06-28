@@ -15,17 +15,17 @@ class CreateProduitsTable extends Migration
     {
         Schema::create('produits', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nom');
-            $table->string('description');
-            $table->float('montant_HT');
-            $table->float('montant_TTC');
-            $table->float('tva');
-            $table->float('prix_final');
-            $table->float('status');
-            $table->unsignedInteger('boutique_id');
-            $table->unsignedInteger('fournisseur_id');
-            $table->unsignedInteger('marque_id');
-            $table->unsignedInteger('stock_id');
+            $table->string('nom')->nullable();
+            $table->string('description')->nullable();
+            $table->float('montant_HT')->nullable();
+            $table->float('montant_TTC')->nullable();
+            $table->float('tva')->nullable();
+            $table->float('prix_final')->nullable();
+            $table->float('status')->nullable();
+            $table->unsignedInteger('boutique_id')->nullable();
+            $table->unsignedInteger('fournisseur_id')->nullable();
+            $table->unsignedInteger('marque_id')->nullable();
+            $table->unsignedInteger('stock_id')->nullable();
             $table->foreign('boutique_id')->references('id')->on('boutiques');
             $table->foreign('fournisseur_id')->references('id')->on('fournisseurs');
             $table->foreign('marque_id')->references('id')->on('marques');
