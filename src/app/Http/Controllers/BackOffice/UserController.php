@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\File;
 use App\Http\Controllers\Controller;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use DB;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller {
 
@@ -38,6 +39,15 @@ class UserController extends Controller {
 	}
 
 	public function signup(Request $request) {
+
+		$validator = Validator::make($request->all(), [
+			'email' => [ 'required', 'string', 'email', 'max:255', 'unique:utilisateurs,email'],
+			'password' => 'required|string|min:6',
+		]);
+
+		if ($validator->fails()) {
+			return response()->json($validator->errors()->getMessages(), 400);
+		}
 
 		$Profil = new \App\Profil;
 		$Profil->nom = $request->input('nom');
