@@ -50,6 +50,47 @@ class SaUserController extends Controller {
 
 	}
 
+	public function showSuperAdmin() {
+
+		$superAdmin = DB::table('utilisateurs')
+		->join('profils', 'profils.id', '=', 'utilisateurs.profil_id')
+		->join('roles', 'roles.id', '=', 'utilisateurs.role_id')
+		->where('utilisateurs.role_id', '=', 1)
+		->select('utilisateurs.email', 'profils.*','roles.nom as role')
+		->get();
+
+		return $superAdmin;
+		
+	}
+
+	public function showVendeur() {
+
+		$superAdmin = DB::table('utilisateurs')
+		->join('profils', 'profils.id', '=', 'utilisateurs.profil_id')
+		->join('roles', 'roles.id', '=', 'utilisateurs.role_id')
+		->where('utilisateurs.role_id', '=', 2)
+		->select('utilisateurs.email', 'profils.*','roles.nom as role')
+		->get();
+
+		return $superAdmin;
+		
+	}
+
+	public function showClient() {
+
+		$superAdmin = DB::table('utilisateurs')
+		->join('profils', 'profils.id', '=', 'utilisateurs.profil_id')
+		->join('roles', 'roles.id', '=', 'utilisateurs.role_id')
+		->where('utilisateurs.role_id', '=', 3)
+		->select('utilisateurs.email', 'profils.*','roles.nom as role')
+		->get();
+
+		return $superAdmin;
+		
+	}
+
+
+
 	public function guard() {
 
 		return Auth::guard();

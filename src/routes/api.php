@@ -134,4 +134,7 @@ Route::group([
 ], function ($router) {
 	Route::get('all', 'BackOffice\SaUserController@allUser');
 	Route::get('add', 'BackOffice\SaUserController@addUser');
+	Route::get('showSA', 'BackOffice\SaUserController@showSuperAdmin');
+	Route::get('showC', 'BackOffice\SaUserController@showClient');
+	Route::get('showV', 'BackOffice\SaUserController@showVendeur');
 });
