@@ -13,18 +13,6 @@ use DB;
 
 class SaUserController extends Controller {
 
-	public function allUser() {
-		
-		$Utilisateurs = DB::table('utilisateurs')
-		->join('profils', 'profils.id', '=', 'utilisateurs.profil_id')
-		->join('roles', 'roles.id', '=', 'utilisateurs.role_id')
-		->select('utilisateurs.email', 'profils.*','roles.nom as role')
-		->get();
-
-		return $Utilisateurs;
-
-	}
-
 	public function addUser(Request $request) {
 
 		$Profil = new \App\Profil;
@@ -86,6 +74,51 @@ class SaUserController extends Controller {
 		->get();
 
 		return $superAdmin;
+		
+	}
+
+	public function allSa() {
+
+		$superAdmin = DB::table('utilisateurs')
+		->join('profils', 'profils.id', '=', 'utilisateurs.profil_id')
+		->join('roles', 'roles.id', '=', 'utilisateurs.role_id')
+		->where('utilisateurs.role_id', '=', 1)
+		->select('utilisateurs.email', 'profils.*','roles.nom as role')
+		->get();
+
+		$allSa = count($superAdmin);
+
+		return $allSa;
+		
+	}
+
+	public function allV() {
+
+		$vendeur = DB::table('utilisateurs')
+		->join('profils', 'profils.id', '=', 'utilisateurs.profil_id')
+		->join('roles', 'roles.id', '=', 'utilisateurs.role_id')
+		->where('utilisateurs.role_id', '=', 2)
+		->select('utilisateurs.email', 'profils.*','roles.nom as role')
+		->get();
+
+		$allV = count($vendeur);
+
+		return $allV;
+		
+	}
+
+	public function allC() {
+
+		$client = DB::table('utilisateurs')
+		->join('profils', 'profils.id', '=', 'utilisateurs.profil_id')
+		->join('roles', 'roles.id', '=', 'utilisateurs.role_id')
+		->where('utilisateurs.role_id', '=', 3)
+		->select('utilisateurs.email', 'profils.*','roles.nom as role')
+		->get();
+
+		$allC = count($client);
+
+		return $allC;
 		
 	}
 
