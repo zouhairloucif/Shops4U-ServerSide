@@ -143,7 +143,9 @@ Route::group([
 	'prefix' => 'sa/user'
 ], function ($router) {
 	// Route::get('all', 'BackOffice\SaUserController@allUser');
-	Route::get('add', 'BackOffice\SaUserController@addUser');
+	Route::post('add/superadmin', 'BackOffice\SaUserController@addSuperAdmin');
+	Route::post('add/vendeur', 'BackOffice\SaUserController@addVendeur');
+	Route::post('add/client', 'BackOffice\SaUserController@addClient');
 	Route::get('showSA', 'BackOffice\SaUserController@showSuperAdmin');
 	Route::get('showC', 'BackOffice\SaUserController@showClient');
 	Route::get('showV', 'BackOffice\SaUserController@showVendeur');

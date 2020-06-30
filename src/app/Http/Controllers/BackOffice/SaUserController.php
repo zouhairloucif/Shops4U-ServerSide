@@ -13,7 +13,53 @@ use DB;
 
 class SaUserController extends Controller {
 
-	public function addUser(Request $request) {
+	public function addSuperAdmin(Request $request) {
+
+		$Profil = new \App\Profil;
+		$Profil->nom = $request->input('nom');
+		$Profil->prenom = $request->input('prenom');
+		$Profil->telephone = $request->input('telephone');
+		$Profil->image = 'Profil-0.jpg';
+		$Profil->save();
+	
+		$user = User::create([
+			'email' => $request->email,
+			'password' => bcrypt($request->password),
+			'status' => true,
+			'role_id' => 1,
+			'profil_id' => $Profil->id,
+			'boutique_id' => null,
+		]);
+
+		return response()->json(array('id' => $user->id), 200);
+
+	}
+
+	public function addVendeur(Request $request) {
+
+		$Profil = new \App\Profil;
+		$Profil->nom = $request->input('nom');
+		$Profil->prenom = $request->input('prenom');
+		$Profil->telephone = $request->input('telephone');
+		$Profil->image = 'Profil-0.jpg';
+		$Profil->save();
+		$Boutique = new \App\Boutique;
+		$Boutique->save();
+
+		$user = User::create([
+			'email' => $request->email,
+			'password' => bcrypt($request->password),
+			'status' => true,
+			'role_id' => 2,
+			'profil_id' => $Profil->id,
+			'boutique_id' => $Boutique->id,
+		]);
+
+		return response()->json(array('id' => $user->id), 200);
+
+	}
+
+	public function addClient(Request $request) {
 
 		$Profil = new \App\Profil;
 		$Profil->nom = $request->input('nom');
@@ -22,16 +68,13 @@ class SaUserController extends Controller {
 		$Profil->image = 'Profil-0.jpg';
 		$Profil->save();
 
-		$Boutique = new \App\Boutique;
-		$Boutique->save();
-
 		$user = User::create([
 			'email' => $request->email,
 			'password' => bcrypt($request->password),
 			'status' => true,
-			'role_id' => $request->role_id,
+			'role_id' => 3,
 			'profil_id' => $Profil->id,
-			'boutique_id' => $Boutique->id,
+			'boutique_id' => null,
 		]);
 
 		return response()->json(array('id' => $user->id), 200);

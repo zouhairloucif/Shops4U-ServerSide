@@ -38,7 +38,7 @@ class CatalogueController extends Controller {
     }
 
     public function StoreProduit(Request $request) {
-     
+
         $id = $this->guard()->user()->boutique_id;
 
         if($id) {
@@ -49,12 +49,6 @@ class CatalogueController extends Controller {
             $Produit->status = $request->input('status');
             $Produit->boutique_id = $id;
             $Produit->save();
-
-            $image = $request->file('image');
-
-            if( $image ) {
-              
-            }
 
             return response()->json(array('id' => $Produit->id), 200);
 

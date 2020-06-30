@@ -21,7 +21,7 @@ class CreateProduitsTable extends Migration
             $table->float('montant_TTC')->nullable();
             $table->float('tva')->nullable();
             $table->float('prix_final')->nullable();
-            $table->float('status')->nullable();
+            $table->string('status')->nullable();
             $table->unsignedInteger('boutique_id')->nullable();
             $table->unsignedInteger('fournisseur_id')->nullable();
             $table->unsignedInteger('marque_id')->nullable();
