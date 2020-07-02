@@ -18,7 +18,7 @@ class CreatePhotosProduitsTable extends Migration
             $table->string('src');
             $table->Integer('order');
             $table->unsignedInteger('produit_id');
-            $table->foreign('produit_id')->references('id')->on('produits');
+            $table->foreign('produit_id')->references('id')->on('produits')->onDelete('cascade');
             $table->timestamps();
         });
     }

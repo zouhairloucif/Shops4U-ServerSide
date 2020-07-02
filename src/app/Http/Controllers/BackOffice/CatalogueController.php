@@ -28,8 +28,18 @@ class CatalogueController extends Controller {
         if($id) {
 
             $Produits = DB::table('produits')
+            ->join('stocks', 'stocks.id', '=', 'produits.stock_id')
+            ->join('photos_produits', 'photos_produits.produit_id', '=', 'produits.id')
             ->where('produits.boutique_id', '=', $id)
+            ->where('photos_produits.order', '=', '0')
+            ->select('produits.*', 'stocks.quantite as quantite', 'photos_produits.src as image')
             ->get();
+
+            for ($i=0; $i < count($Produits) ; $i++) { 
+                if($Produits[$i]->image){
+                    $Produits[$i]->image = "http://localhost/Shops4U/src/storage/app/public/Produit/".$Produits[$i]->image;
+                }
+            }
 
             return $Produits;
 
@@ -43,16 +53,79 @@ class CatalogueController extends Controller {
 
         if($id) {
 
+            $Stock = new \App\stock;
+            $Stock->quantite = $request->input('quantite');
+            $Stock->save();
+
             $Produit = new \App\Produit;
             $Produit->nom = $request->input('nom');
             $Produit->description = $request->input('description');
             $Produit->status = $request->input('status');
+            $Produit->montant_HT = $request->input('montant_HT');
+            $Produit->montant_TTC = $request->input('montant_TTC');
+            $Produit->tva = $request->input('tva');
             $Produit->boutique_id = $id;
+            $Produit->fournisseur_id = $request->input('fournisseur_id');
+            $Produit->marque_id = $request->input('marque_id');
+            $Produit->stock_id = $Stock->id;
             $Produit->save();
+
+            $categories = json_decode($request->get('categories'));
+
+            if($categories) {
+
+                for ($i=0; $i < count($categories) ; $i++) { 
+
+                    $CategoryProduit = new \App\categorie_produit;
+                    $CategoryProduit->produit_id = $Produit->id;
+                    $CategoryProduit->categorie_id = $categories[$i]->id;    
+                    $CategoryProduit->save();
+
+                }
+
+            }
+
+            $image = $request->file('image');
+
+            if( $image ) {
+                $extension = $image->getClientOriginalExtension();
+                Storage::disk('public')->put('Produit/Produit-'.$Produit->id.'.'.$extension,  File::get($image));
+                $PhotosPorduit = new \App\photos_produit;
+                $PhotosPorduit->produit_id = $Produit->id;
+                $PhotosPorduit->src = 'Produit-'.$Produit->id.'.'.$extension;
+                $PhotosPorduit->order = 0;
+                $PhotosPorduit->save();
+            }else {
+                $PhotosPorduit = new \App\photos_produit;
+                $PhotosPorduit->produit_id = $Produit->id;
+                $PhotosPorduit->src = 'Produit-0.png';
+                $PhotosPorduit->order = 0;
+                $PhotosPorduit->save();
+            }
 
             return response()->json(array('id' => $Produit->id), 200);
 
         }
+
+    }
+
+    public function DeleteProduit($id) {
+
+        $Produit = new \App\produit;
+        $Produit = $Produit::find($id);
+        $Result = false;
+
+        if($Produit) {
+
+            $Result = $Produit->delete();
+
+            DB::table('stocks')
+            ->where('stocks.id', '=', $Produit->stock_id)
+            ->delete();
+
+        }
+
+        return response()->json($Result);
 
     }
 
@@ -147,7 +220,7 @@ class CatalogueController extends Controller {
 
     }
 
-    public function DestroyCategory($id) {
+    public function DeleteCategory($id) {
 
         $Categorys = new \App\Categorie;
         $Category = $Categorys::find($id);
@@ -156,6 +229,7 @@ class CatalogueController extends Controller {
         if($Category) {
 
             $Result = $Category->delete();
+
         }
 
         return response()->json($Result);
@@ -232,7 +306,7 @@ class CatalogueController extends Controller {
 
     }
 
-    public function DestroyReduction($id) {
+    public function DeleteReduction($id) {
 
         $reductions = new \App\Reduction;
 
@@ -243,6 +317,7 @@ class CatalogueController extends Controller {
         if($Reduction) {
 
             $Result = $Reduction->delete();
+
         }
 
         return response()->json($Result);
@@ -324,7 +399,7 @@ class CatalogueController extends Controller {
 
     }
 
-    public function DestroyFournisseur($id) {
+    public function DeleteFournisseur($id) {
 
         $Fournisseurs = new \App\Fournisseur;
 
@@ -334,7 +409,12 @@ class CatalogueController extends Controller {
 
         if($Fournisseur) {
 
+            $Produits = DB::table('produits')
+            ->where('produits.fournisseur_id', '=', $id)
+            ->update(['fournisseur_id' => null]);
+
             $Result = $Fournisseur->delete();
+
         }
 
         return response()->json($Result);
@@ -437,7 +517,7 @@ class CatalogueController extends Controller {
 
     }
 
-    public function DestroyMarque($id) {
+    public function DeleteMarque($id) {
 
         $Marques = new \App\Marque;
 
@@ -447,7 +527,12 @@ class CatalogueController extends Controller {
 
         if($Marque) {
 
+            $Produits = DB::table('produits')
+            ->where('produits.marque_id', '=', $id)
+            ->update(['marque_id' => null]);
+
             $Result = $Marque->delete();
+
         }
 
         return response()->json($Result);

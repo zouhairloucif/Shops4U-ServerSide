@@ -44,6 +44,7 @@ Route::group([
 ], function ($router) {
 	Route::get('all', 'BackOffice\CatalogueController@AllProduits');
 	Route::post('store', 'BackOffice\CatalogueController@StoreProduit');
+	Route::delete('delete/{id}', 'BackOffice\CatalogueController@DeleteProduit');
 });
 
 /*-------  Api Catalogue  -------*/
@@ -55,7 +56,7 @@ Route::group([
 	Route::get('show/{id}', 'BackOffice\CatalogueController@showCategory');
 	Route::post('store', 'BackOffice\CatalogueController@StoreCategory');
 	Route::put('update/{id}', 'BackOffice\CatalogueController@UpdateCategory');
-	Route::delete('destroy/{id}', 'BackOffice\CatalogueController@DestroyCategory');
+	Route::delete('delete/{id}', 'BackOffice\CatalogueController@DeleteCategory');
 });
 
 /*-------  Api Catalogue  -------*/
@@ -67,7 +68,7 @@ Route::group([
 	Route::get('show/{id}', 'BackOffice\CatalogueController@showReduction');
 	Route::post('store', 'BackOffice\CatalogueController@StoreReduction');
 	Route::put('update/{id}', 'BackOffice\CatalogueController@UpdateReduction');
-	Route::delete('destroy/{id}', 'BackOffice\CatalogueController@DestroyReduction');
+	Route::delete('delete/{id}', 'BackOffice\CatalogueController@DeleteReduction');
 });
 
 /*-------  Api Catalogue  -------*/
@@ -79,7 +80,7 @@ Route::group([
 	Route::get('show/{id}', 'BackOffice\CatalogueController@showFournisseur');
 	Route::post('store', 'BackOffice\CatalogueController@StoreFournisseur');
 	Route::put('update/{id}', 'BackOffice\CatalogueController@UpdateFournisseur');
-	Route::delete('destroy/{id}', 'BackOffice\CatalogueController@DestroyFournisseur');
+	Route::delete('delete/{id}', 'BackOffice\CatalogueController@DeleteFournisseur');
 });
 
 /*-------  Api Marque  -------*/
@@ -91,7 +92,7 @@ Route::group([
 	Route::get('show/{id}', 'BackOffice\CatalogueController@showMarque');
 	Route::post('store', 'BackOffice\CatalogueController@StoreMarque');
 	Route::put('update/{id}', 'BackOffice\CatalogueController@UpdateMarque');
-	Route::delete('destroy/{id}', 'BackOffice\CatalogueController@DestroyMarque');
+	Route::delete('delete/{id}', 'BackOffice\CatalogueController@DeleteMarque');
 });
 
 /*-------  Api Boutique  -------*/

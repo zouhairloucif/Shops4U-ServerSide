@@ -15,9 +15,9 @@ class CreateStocksTable extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->increments('id');
-            $table->Integer('nbr');
-            $table->Integer('nbrmin');
-            $table->Integer('nbrmax');
+            $table->Integer('quantite')->nullable();
+            $table->Integer('nbrmin')->nullable();
+            $table->Integer('nbrmax')->nullable();
             $table->timestamps();
         });
     }

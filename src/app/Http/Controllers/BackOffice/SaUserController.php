@@ -87,7 +87,7 @@ class SaUserController extends Controller {
 		->join('profils', 'profils.id', '=', 'utilisateurs.profil_id')
 		->join('roles', 'roles.id', '=', 'utilisateurs.role_id')
 		->where('utilisateurs.role_id', '=', 1)
-		->select('utilisateurs.email', 'profils.*','roles.nom as role')
+		->select('utilisateurs.status','utilisateurs.email', 'profils.*','roles.nom as role')
 		->get();
 
 		return $superAdmin;
@@ -100,7 +100,7 @@ class SaUserController extends Controller {
 		->join('profils', 'profils.id', '=', 'utilisateurs.profil_id')
 		->join('roles', 'roles.id', '=', 'utilisateurs.role_id')
 		->where('utilisateurs.role_id', '=', 2)
-		->select('utilisateurs.email', 'profils.*','roles.nom as role')
+		->select('utilisateurs.status','utilisateurs.email', 'profils.*','roles.nom as role')
 		->get();
 
 		return $superAdmin;
@@ -113,7 +113,7 @@ class SaUserController extends Controller {
 		->join('profils', 'profils.id', '=', 'utilisateurs.profil_id')
 		->join('roles', 'roles.id', '=', 'utilisateurs.role_id')
 		->where('utilisateurs.role_id', '=', 3)
-		->select('utilisateurs.email', 'profils.*','roles.nom as role')
+		->select('utilisateurs.status','utilisateurs.email', 'profils.*','roles.nom as role')
 		->get();
 
 		return $superAdmin;
