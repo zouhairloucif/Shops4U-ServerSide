@@ -15,7 +15,7 @@ class SaUserController extends Controller {
 
 	public function addSuperAdmin(Request $request) {
 
-		$Profil = new \App\Profil;
+		$Profil = new \App\profil;
 		$Profil->nom = $request->input('nom');
 		$Profil->prenom = $request->input('prenom');
 		$Profil->telephone = $request->input('telephone');
@@ -37,13 +37,13 @@ class SaUserController extends Controller {
 
 	public function addVendeur(Request $request) {
 
-		$Profil = new \App\Profil;
+		$Profil = new \App\profil;
 		$Profil->nom = $request->input('nom');
 		$Profil->prenom = $request->input('prenom');
 		$Profil->telephone = $request->input('telephone');
 		$Profil->image = 'Profil-0.jpg';
 		$Profil->save();
-		$Boutique = new \App\Boutique;
+		$Boutique = new \App\boutique;
 		$Boutique->save();
 
 		$user = User::create([
@@ -61,7 +61,7 @@ class SaUserController extends Controller {
 
 	public function addClient(Request $request) {
 
-		$Profil = new \App\Profil;
+		$Profil = new \App\profil;
 		$Profil->nom = $request->input('nom');
 		$Profil->prenom = $request->input('prenom');
 		$Profil->telephone = $request->input('telephone');

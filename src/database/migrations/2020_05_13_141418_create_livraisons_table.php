@@ -20,10 +20,10 @@ class CreateLivraisonsTable extends Migration
             $table->unsignedInteger('zone_id')->nullable();
             $table->unsignedInteger('pays_id')->nullable();
             $table->unsignedInteger('ville_id')->nullable();
-            $table->foreign('transporteur_id')->references('id')->on('transporteurs');
-            $table->foreign('zone_id')->references('id')->on('zones');
-            $table->foreign('pays_id')->references('id')->on('pays');
-            $table->foreign('ville_id')->references('id')->on('villes');
+            $table->foreign('transporteur_id')->references('id')->on('transporteurs')->onDelete('cascade');;
+            $table->foreign('zone_id')->references('id')->on('zones')->onDelete('cascade');
+            $table->foreign('pays_id')->references('id')->on('pays')->onDelete('cascade');
+            $table->foreign('ville_id')->references('id')->on('villes')->onDelete('cascade');
             $table->timestamps();
         });
     }

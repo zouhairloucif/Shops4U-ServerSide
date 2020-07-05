@@ -20,7 +20,7 @@ class CreatePaysTable extends Migration
             $table->unsignedInteger('boutique_id');
             $table->unsignedInteger('zone_id');
             $table->foreign('boutique_id')->references('id')->on('boutiques');
-            $table->foreign('zone_id')->references('id')->on('zones');
+            $table->foreign('zone_id')->references('id')->on('zones')->onDelete('cascade');
             $table->timestamps();
         });
     }

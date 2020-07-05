@@ -34,7 +34,7 @@ class ClientsController extends Controller {
 
         if($id) {
 
-            $Profil = new \App\Profil;
+            $Profil = new \App\profil;
             $Profil->gender = $request->input('gender');
             $Profil->nom = $request->input('nom');
             $Profil->prenom = $request->input('prenom');

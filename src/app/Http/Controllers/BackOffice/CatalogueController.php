@@ -57,12 +57,13 @@ class CatalogueController extends Controller {
             $Stock->quantite = $request->input('quantite');
             $Stock->save();
 
-            $Produit = new \App\Produit;
+            $Produit = new \App\produit;
             $Produit->nom = $request->input('nom');
             $Produit->description = $request->input('description');
             $Produit->status = $request->input('status');
             $Produit->montant_HT = $request->input('montant_HT');
             $Produit->montant_TTC = $request->input('montant_TTC');
+            $Produit->prix_final = $request->input('montant_TTC');
             $Produit->tva = $request->input('tva');
             $Produit->boutique_id = $id;
             $Produit->fournisseur_id = $request->input('fournisseur_id');
@@ -150,7 +151,7 @@ class CatalogueController extends Controller {
 
     public function showCategory($id) {
 
-        $Categorys = new \App\Categorie;
+        $Categorys = new \App\categorie;
 
         $Category = $Categorys::find($id);
 
@@ -168,7 +169,7 @@ class CatalogueController extends Controller {
 
         if($id) {
 
-            $NewCategory = new \App\Categorie;
+            $NewCategory = new \App\categorie;
             $NewCategory->nom = $request->input('nom');
             $NewCategory->description = $request->input('description');
             $NewCategory->status = $request->input('status');
@@ -193,7 +194,7 @@ class CatalogueController extends Controller {
 
     public function UpdateCategory(Request $request, $id) {
 
-        $Categorys = new \App\Categorie;
+        $Categorys = new \App\categorie;
 
         $Category = $Categorys::find($id);
 
@@ -222,7 +223,7 @@ class CatalogueController extends Controller {
 
     public function DeleteCategory($id) {
 
-        $Categorys = new \App\Categorie;
+        $Categorys = new \App\categorie;
         $Category = $Categorys::find($id);
         $Result = false;
 
@@ -240,7 +241,7 @@ class CatalogueController extends Controller {
 
     public function AllReduction() {
 
-        $reductions = \App\Reduction::all();
+        $reductions = \App\reduction::all();
 
         return $reductions;
 
@@ -248,7 +249,7 @@ class CatalogueController extends Controller {
 
     public function showReduction($id) {
 
-        $Reductions = new \App\Reduction;
+        $Reductions = new \App\reduction;
 
         $Reduction = $Reductions::find($id);
 
@@ -266,7 +267,7 @@ class CatalogueController extends Controller {
 
         if($id) {
 
-            $Reduction = new \App\Reduction;
+            $Reduction = new \App\reduction;
             $Reduction->nom = $request->input('nom');
             $Reduction->description = $request->input('description');
             $Reduction->code = $request->input('code');
@@ -285,7 +286,7 @@ class CatalogueController extends Controller {
 
     public function UpdateReduction(Request $request, $id) {
 
-        $Reductions = new \App\Reduction;
+        $Reductions = new \App\reduction;
 
         $Reduction = $Reductions::find($id);
 
@@ -308,7 +309,7 @@ class CatalogueController extends Controller {
 
     public function DeleteReduction($id) {
 
-        $reductions = new \App\Reduction;
+        $reductions = new \App\reduction;
 
         $Reduction = $reductions::find($id);
 
@@ -344,7 +345,7 @@ class CatalogueController extends Controller {
 
     public function showFournisseur($id) {
 
-        $Fournisseurs = new \App\Fournisseur;
+        $Fournisseurs = new \App\fournisseur;
 
         $Fournisseur = $Fournisseurs::find($id);
 
@@ -362,7 +363,7 @@ class CatalogueController extends Controller {
 
         if($id) {
 
-            $Fournisseur = new \App\Fournisseur;
+            $Fournisseur = new \App\fournisseur;
 
             $Fournisseur->nom = $request->input('nom');
             $Fournisseur->telephone = $request->input('telephone');
@@ -380,7 +381,7 @@ class CatalogueController extends Controller {
 
     public function UpdateFournisseur(Request $request, $id) {
 
-        $Fournisseurs = new \App\Fournisseur;
+        $Fournisseurs = new \App\fournisseur;
 
         $Fournisseur = $Fournisseurs::find($id);
 
@@ -401,7 +402,7 @@ class CatalogueController extends Controller {
 
     public function DeleteFournisseur($id) {
 
-        $Fournisseurs = new \App\Fournisseur;
+        $Fournisseurs = new \App\fournisseur;
 
         $Fournisseur = $Fournisseurs::find($id);
 
@@ -448,7 +449,7 @@ class CatalogueController extends Controller {
 
     public function showMarque($id) {
 
-        $Marques = new \App\Marque;
+        $Marques = new \App\marque;
 
         $Marque = $Marques::find($id);
 
@@ -466,7 +467,7 @@ class CatalogueController extends Controller {
 
         if($id) {
 
-            $Marque = new \App\Marque;
+            $Marque = new \App\marque;
 
             $Marque->nom = $request->input('nom');
             $Marque->description = $request->input('description');
@@ -491,7 +492,7 @@ class CatalogueController extends Controller {
 
     public function UpdateMarque(Request $request, $id) {
 
-        $Marques = new \App\Marque;
+        $Marques = new \App\marque;
 
         $Marque = $Marques::find($id);
 
@@ -519,7 +520,7 @@ class CatalogueController extends Controller {
 
     public function DeleteMarque($id) {
 
-        $Marques = new \App\Marque;
+        $Marques = new \App\marque;
 
         $Marque = $Marques::find($id);
 

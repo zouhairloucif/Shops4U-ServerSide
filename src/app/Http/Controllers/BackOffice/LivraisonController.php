@@ -48,7 +48,7 @@ class LivraisonController extends Controller {
 
         if($id) {
 
-            $Transporteur = new \App\Transporteur;
+            $Transporteur = new \App\transporteur;
             $Transporteur->nom = $request->input('nom');
             $Transporteur->type = $request->input('type');
             $Transporteur->delai = $request->input('delai');
@@ -71,7 +71,7 @@ class LivraisonController extends Controller {
 
                 for ($i=0; $i < count($LivraisonJson) ; $i++) { 
 
-                    $Livraison = new \App\Livraison;
+                    $Livraison = new \App\livraison;
                     $Livraison->transporteur_id = $Transporteur->id;
                     $Livraison->prix = $LivraisonJson[$i]->val;
 
@@ -101,7 +101,7 @@ class LivraisonController extends Controller {
 
     public function DeleteTransporteur($id) {
 
-        $Transporteurs = new \App\Transporteur;
+        $Transporteurs = new \App\transporteur;
 
         $Transporteur = $Transporteurs::find($id);
 
@@ -144,7 +144,7 @@ class LivraisonController extends Controller {
 
         if($id) {
 
-            $Zone = new \App\Zones;
+            $Zone = new \App\zones;
             $Zone->zone = $request->input('zone');
             $Zone->status = $request->input('status');
             $Zone->boutique_id = $id;
@@ -181,7 +181,7 @@ class LivraisonController extends Controller {
 
         if($id) {
 
-            $Ville = new \App\Ville;
+            $Ville = new \App\ville;
             $Ville->ville = $request->input('ville');
             $Ville->status = $request->input('status');
             $Ville->boutique_id = $id;
@@ -219,7 +219,7 @@ class LivraisonController extends Controller {
 
         if($id) {
 
-            $Pays = new \App\Pays;
+            $Pays = new \App\pays;
             $Pays->pays = $request->input('pays');
             $Pays->status = $request->input('status');
             $Pays->boutique_id = $id;

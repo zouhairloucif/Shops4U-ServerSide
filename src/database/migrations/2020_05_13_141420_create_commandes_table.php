@@ -17,12 +17,12 @@ class CreateCommandesTable extends Migration
             $table->increments('id');
             $table->string('status');
             $table->string('valide');
-            $table->string('adresse');
-            $table->string('code_postale');
             $table->date('date');
+            $table->unsignedInteger('utilisateur_id');
             $table->unsignedInteger('boutique_id');
             $table->unsignedInteger('livraison_id');
             $table->unsignedInteger('paiement_id');
+            $table->foreign('utilisateur_id')->references('id')->on('utilisateurs');
             $table->foreign('boutique_id')->references('id')->on('boutiques');
             $table->foreign('livraison_id')->references('id')->on('livraisons');
             $table->foreign('paiement_id')->references('id')->on('mode_paiements');

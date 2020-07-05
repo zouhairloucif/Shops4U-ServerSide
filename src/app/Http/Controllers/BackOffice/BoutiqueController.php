@@ -22,7 +22,7 @@ class BoutiqueController extends Controller {
 
 		$id = $this->guard()->user()->boutique_id;
 
-		$Boutiques = new \App\Boutique;
+		$Boutiques = new \App\boutique;
 
 		$Boutique = $Boutiques::find($id);
 
@@ -36,7 +36,7 @@ class BoutiqueController extends Controller {
 
 	public function StoreBoutique(Request $request) {
 
-		$Boutique = new \App\Boutique;
+		$Boutique = new \App\boutique;
 		$Boutique->nom = $request->input('nom');
 		$Boutique->url = $request->input('url');
 		$Boutique->devise = $request->input('devise');
@@ -70,7 +70,7 @@ class BoutiqueController extends Controller {
 
 		$id = $this->guard()->user()->boutique_id;
 
-		$Boutiques = new \App\Boutique;
+		$Boutiques = new \App\boutique;
 
 		$Boutique = $Boutiques::find($id);
 
@@ -106,7 +106,7 @@ class BoutiqueController extends Controller {
 
 		if($id) {
 
-			$Boutiques = new \App\Boutique;
+			$Boutiques = new \App\boutique;
 
 			$Boutique = $Boutiques::find($id);
 
@@ -114,7 +114,7 @@ class BoutiqueController extends Controller {
 
 			if($maintenance_id) {
 
-				$Maintenances = new \App\Maintenance;
+				$Maintenances = new \App\maintenance;
 				$Maintenance = $Maintenances::find($maintenance_id);
 
 				return $Maintenance;
@@ -133,7 +133,7 @@ class BoutiqueController extends Controller {
 
 		if($id) {
 
-			$Boutiques = new \App\Boutique;
+			$Boutiques = new \App\boutique;
 
 			$Boutique = $Boutiques::find($id);
 
@@ -141,7 +141,7 @@ class BoutiqueController extends Controller {
 
 			if( $maintenance_id ) {
 
-				$Maintenances = new \App\Maintenance;
+				$Maintenances = new \App\maintenance;
 				$Maintenance = $Maintenances::find($maintenance_id);
 				$Maintenance->message = $request->input('message');
 				$Maintenance->status = $request->input('status');
@@ -151,7 +151,7 @@ class BoutiqueController extends Controller {
 
 			}else {
 
-				$Maintenance = new \App\Maintenance;
+				$Maintenance = new \App\maintenance;
 				$Maintenance->message = $request->input('message');
 				$Maintenance->status = $request->input('status');
 				$Maintenance->save();

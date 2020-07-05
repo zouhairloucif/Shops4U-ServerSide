@@ -49,14 +49,14 @@ class UserController extends Controller {
 			return response()->json($validator->errors()->getMessages(), 400);
 		}
 
-		$Profil = new \App\Profil;
+		$Profil = new \App\profil;
 		$Profil->nom = $request->input('nom');
 		$Profil->prenom = $request->input('prenom');
 		$Profil->telephone = $request->input('telephone');
 		$Profil->image = 'Profil-0.jpg';
 		$Profil->save();
 
-		$Boutique = new \App\Boutique;
+		$Boutique = new \App\boutique;
 		$Boutique->save();
 
 		$user = User::create([
@@ -78,7 +78,7 @@ class UserController extends Controller {
 		
 		$user = auth()->user();
 
-		$Profils = new \App\Profil;
+		$Profils = new \App\profil;
 
 		$Profil = $Profils::find($user->profil_id);
 

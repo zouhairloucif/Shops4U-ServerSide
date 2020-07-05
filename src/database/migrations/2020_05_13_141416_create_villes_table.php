@@ -20,7 +20,7 @@ class CreateVillesTable extends Migration
             $table->unsignedInteger('boutique_id');
             $table->unsignedInteger('pays_id');
             $table->foreign('boutique_id')->references('id')->on('boutiques');
-            $table->foreign('pays_id')->references('id')->on('pays');
+            $table->foreign('pays_id')->references('id')->on('pays')->onDelete('cascade');;
             $table->timestamps();
         });
     }

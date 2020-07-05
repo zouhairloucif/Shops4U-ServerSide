@@ -15,7 +15,7 @@ class PaiementController extends Controller {
 
     public function modePaiements()  {
         
-        $Mode_paiements = \App\Mode_paiement::all();
+        $Mode_paiements = \App\mode_paiement::all();
 
         return $Mode_paiements;
 
