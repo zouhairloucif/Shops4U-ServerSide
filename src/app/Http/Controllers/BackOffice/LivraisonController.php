@@ -109,11 +109,8 @@ class LivraisonController extends Controller {
 
         if($Transporteur) {
 
-            $livraisons = DB::table('livraisons')
-            ->where('livraisons.transporteur_id', '=', $id)
-            ->delete();
-
             $Result = $Transporteur->delete();
+
         }
 
         return response()->json($Result);
@@ -156,6 +153,24 @@ class LivraisonController extends Controller {
 
     }
 
+    public function DeleteZone($id) {
+
+        $Zones = new \App\zones;
+
+        $Zone = $Zones::find($id);
+
+        $Result = false;
+
+        if($Zone) {
+
+            $Result = $Zone->delete();
+
+        }
+
+        return response()->json($Result);
+
+    }
+
 
     /* Ville */
 
@@ -191,6 +206,24 @@ class LivraisonController extends Controller {
             return response()->json(array('id' => $Ville->id), 200);
 
         }
+
+    }
+
+    public function DeleteVille($id) {
+
+        $Villes = new \App\ville;
+
+        $Ville = $Villes::find($id);
+
+        $Result = false;
+
+        if($Ville) {
+
+            $Result = $Ville->delete();
+
+        }
+
+        return response()->json($Result);
 
     }
 
@@ -232,6 +265,23 @@ class LivraisonController extends Controller {
 
     }
 
+    public function DeletePays($id) {
+
+        $Payss = new \App\pays;
+
+        $Pays = $Payss::find($id);
+
+        $Result = false;
+
+        if($Pays) {
+
+            $Result = $Pays->delete();
+
+        }
+
+        return response()->json($Result);
+
+    }
 
     public function guard() {
 

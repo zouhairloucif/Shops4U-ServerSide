@@ -44,7 +44,7 @@ class ClientsController extends Controller {
             $user = User::create([
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
-                'status' => true,
+                'status' => $request->status,
                 'role_id' => 3,
                 'profil_id' => $Profil->id,
                 'boutique_id' => $id
@@ -72,6 +72,75 @@ class ClientsController extends Controller {
         }
 
         return $Utilisateurs;
+
+    }
+
+
+    public function show($id) {
+
+        $ID_Boutique = $this->guard()->user()->boutique_id;
+
+        if($id) {
+
+           $Utilisateurs = DB::table('utilisateurs')
+            ->join('profils', 'profils.id', '=', 'utilisateurs.profil_id')
+            ->where('utilisateurs.role_id', '=', 3)
+            ->where('utilisateurs.id', '=', $id)
+            ->where('utilisateurs.boutique_id', '=', $ID_Boutique)
+            ->select('utilisateurs.email', 'utilisateurs.status', 'profils.*')
+            ->first();
+
+            if($Utilisateurs) {
+                return response()->json($Utilisateurs, 200);
+            }else {
+                return response()->json(false, 404);
+            }
+
+        }
+
+    }
+
+     public function update(Request $request, $id) {
+
+        $ID_Boutique = $this->guard()->user()->boutique_id;
+
+        if($ID_Boutique) {
+
+            $Utilisateurs = new \App\utilisateur;
+            $Utilisateur = $Utilisateurs::find($id);
+            $Utilisateur->email = $request->input('email');
+            $Utilisateur->status = $request->input('status');
+            $Utilisateur->update();
+
+            DB::table('profils')
+            ->where('profils.id', $Utilisateur->profil_id)
+            ->update([
+                'nom' => $request->input('nom'),
+                'prenom' => $request->input('prenom'),
+                'gender' => $request->input('gender')
+            ]);
+
+            return response()->json(array('id' => $id), 200);
+
+        }
+
+    }
+
+    public function delete($id) {
+
+        $Utilisateurs = new \App\utilisateur;
+
+        $Utilisateur = $Utilisateurs::find($id);
+
+        $Result = false;
+
+        if($Utilisateur) {
+
+            $Result = $Utilisateur->delete();
+
+        }
+
+        return response()->json($Result);
 
     }
 

@@ -249,14 +249,21 @@ class CatalogueController extends Controller {
 
     public function showReduction($id) {
 
-        $Reductions = new \App\reduction;
+        $ID_Boutique = $this->guard()->user()->boutique_id;
 
-        $Reduction = $Reductions::find($id);
+        if($id) {
 
-        if($Reduction) {
-            return $Reduction;
-        }else {
-            return response()->json(false);
+            $Reduction = DB::table('reductions')
+            ->where('reductions.id', '=', $id)
+            ->where('reductions.boutique_id', '=', $ID_Boutique)
+            ->first();
+
+            if($Reduction) {
+                return response()->json($Reduction, 200);
+            }else {
+                return response()->json(false, 404);
+            }
+
         }
 
     }
@@ -298,7 +305,6 @@ class CatalogueController extends Controller {
             $Reduction->quantite = $request->input('quantite');
             $Reduction->valide = $request->input('valide');
             $Reduction->status = $request->input('status');
-            $Reduction->boutique_id = $request->input('boutique_id');
             $Reduction->update();
 
             return response()->json(array('id' => $Reduction->id), 200);
@@ -345,14 +351,21 @@ class CatalogueController extends Controller {
 
     public function showFournisseur($id) {
 
-        $Fournisseurs = new \App\fournisseur;
+        $ID_Boutique = $this->guard()->user()->boutique_id;
 
-        $Fournisseur = $Fournisseurs::find($id);
+        if($id) {
 
-        if($Fournisseur) {
-            return $Fournisseur;
-        }else {
-            return response()->json(false);
+            $Fournisseur = DB::table('fournisseurs')
+            ->where('fournisseurs.id', '=', $id)
+            ->where('fournisseurs.boutique_id', '=', $ID_Boutique)
+            ->first();
+
+            if($Fournisseur) {
+                return response()->json($Fournisseur, 200);
+            }else {
+                return response()->json(false, 404);
+            }
+
         }
 
     }
@@ -391,7 +404,7 @@ class CatalogueController extends Controller {
             $Fournisseur->telephone = $request->input('telephone');
             $Fournisseur->email = $request->input('email');
             $Fournisseur->adresse = $request->input('adresse');
-            $Fournisseur->boutique_id = $request->input('boutique_id');
+            $Fournisseur->status = $request->input('status');
             $Fournisseur->update();
 
             return response()->json(array('id' => $Fournisseur->id), 200);
@@ -449,14 +462,21 @@ class CatalogueController extends Controller {
 
     public function showMarque($id) {
 
-        $Marques = new \App\marque;
+        $ID_Boutique = $this->guard()->user()->boutique_id;
 
-        $Marque = $Marques::find($id);
+        if($id) {
 
-        if($Marque) {
-            return $Marque;
-        }else {
-            return response()->json(false);
+            $Marque = DB::table('marques')
+            ->where('marques.id', '=', $id)
+            ->where('marques.boutique_id', '=', $ID_Boutique)
+            ->first();
+
+            if($Marque) {
+                return response()->json($Marque, 200);
+            }else {
+                return response()->json(false, 404);
+            }
+
         }
 
     }
@@ -500,7 +520,7 @@ class CatalogueController extends Controller {
 
             $Marque->nom = $request->input('nom');
             $Marque->description = $request->input('description');
-            $Marque->boutique_id = $request->input('boutique_id');
+            $Marque->status = $request->input('status');
             $Marque->update();
 
             $image = $request->file('image');

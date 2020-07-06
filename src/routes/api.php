@@ -91,7 +91,7 @@ Route::group([
 	Route::get('all', 'BackOffice\CatalogueController@AllMarque');
 	Route::get('show/{id}', 'BackOffice\CatalogueController@showMarque');
 	Route::post('store', 'BackOffice\CatalogueController@StoreMarque');
-	Route::put('update/{id}', 'BackOffice\CatalogueController@UpdateMarque');
+	Route::post('update/{id}', 'BackOffice\CatalogueController@UpdateMarque');
 	Route::delete('delete/{id}', 'BackOffice\CatalogueController@DeleteMarque');
 });
 
@@ -122,20 +122,28 @@ Route::group([
 ], function ($router) {
 	Route::post('zone/store', 'BackOffice\LivraisonController@storeZone');
 	Route::get('zone/all', 'BackOffice\LivraisonController@allZone');
+	Route::delete('zone/delete/{id}', 'BackOffice\LivraisonController@DeleteZone');
 	Route::post('pays/store', 'BackOffice\LivraisonController@storePays');
 	Route::get('pays/all', 'BackOffice\LivraisonController@allPays');
+	Route::delete('pays/delete/{id}', 'BackOffice\LivraisonController@DeletePays');
 	Route::post('ville/store', 'BackOffice\LivraisonController@storeVille');
 	Route::get('ville/all', 'BackOffice\LivraisonController@allVille');
+	Route::delete('ville/delete/{id}', 'BackOffice\LivraisonController@DeleteVille');
 	Route::post('transporteur/store', 'BackOffice\LivraisonController@storeTransporteur');
 	Route::get('transporteur/all', 'BackOffice\LivraisonController@allTransporteur');
 	Route::delete('transporteur/delete/{id}', 'BackOffice\LivraisonController@DeleteTransporteur');
 });
+
+/*-------  Api Client  -------*/
 
 Route::group([
 	'prefix' => 'client'
 ], function ($router) {
 	Route::get('all', 'BackOffice\ClientsController@all');
 	Route::post('store', 'BackOffice\ClientsController@store');
+	Route::get('show/{id}', 'BackOffice\ClientsController@show');
+	Route::put('update/{id}', 'BackOffice\ClientsController@update');
+	Route::delete('delete/{id}', 'BackOffice\ClientsController@delete');
 });
 
 /*******************  Super admin *******************/
