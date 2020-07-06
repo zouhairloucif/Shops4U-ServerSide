@@ -153,4 +153,5 @@ Route::group([
 	Route::get('allSa', 'BackOffice\SaUserController@allSa');
 	Route::get('allV', 'BackOffice\SaUserController@allV');
 	Route::get('allC', 'BackOffice\SaUserController@allC');
+	Route::delete('delete/{id}', 'BackOffice\SaUserController@deleteUser');
 });

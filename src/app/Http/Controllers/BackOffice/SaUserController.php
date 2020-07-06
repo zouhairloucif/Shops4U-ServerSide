@@ -18,14 +18,14 @@ class SaUserController extends Controller {
 		$Profil = new \App\profil;
 		$Profil->nom = $request->input('nom');
 		$Profil->prenom = $request->input('prenom');
-		$Profil->telephone = $request->input('telephone');
+		$Profil->telephone =  $request->input;
 		$Profil->image = 'Profil-0.jpg';
 		$Profil->save();
 	
 		$user = User::create([
 			'email' => $request->email,
 			'password' => bcrypt($request->password),
-			'status' => true,
+			'status' =>  $request->input('status'),
 			'role_id' => 1,
 			'profil_id' => $Profil->id,
 			'boutique_id' => null,
@@ -49,7 +49,7 @@ class SaUserController extends Controller {
 		$user = User::create([
 			'email' => $request->email,
 			'password' => bcrypt($request->password),
-			'status' => true,
+			'status' => $request->input('status'),
 			'role_id' => 2,
 			'profil_id' => $Profil->id,
 			'boutique_id' => $Boutique->id,
@@ -71,7 +71,7 @@ class SaUserController extends Controller {
 		$user = User::create([
 			'email' => $request->email,
 			'password' => bcrypt($request->password),
-			'status' => true,
+			'status' => $request->input('status'),
 			'role_id' => 3,
 			'profil_id' => $Profil->id,
 			'boutique_id' => null,
@@ -164,6 +164,24 @@ class SaUserController extends Controller {
 		return $allC;
 		
 	}
+
+    public function deleteUser($id) {
+
+        $utilisateur = new \App\utilisateur;
+
+        $utilisateur = $utilisateur::find($id);
+
+        $Result = false;
+
+        if($utilisateur) {
+
+            $Result = $utilisateur->delete();
+
+        }
+
+        return response()->json($Result);
+
+    }
 
 
 
