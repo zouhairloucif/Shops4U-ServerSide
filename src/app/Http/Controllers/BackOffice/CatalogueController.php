@@ -110,6 +110,110 @@ class CatalogueController extends Controller {
 
     }
 
+    public function UpdateProduit(Request $request,$id) {
+
+        $ID_Boutique = $this->guard()->user()->boutique_id;
+
+        if($ID_Boutique) {
+
+            DB::table('produits')
+            ->where('produits.id', $id)
+            ->where('produits.boutique_id', $ID_Boutique)
+            ->update([
+                'nom' => $request->input('nom'),
+                'description' => $request->input('description'),
+                'status' => $request->input('status'),
+                'montant_HT' => $request->input('montant_HT'),
+                'montant_TTC' => $request->input('montant_TTC'),
+                'prix_final' => $request->input('montant_TTC'),
+                'tva' => $request->input('tva'),
+                'fournisseur_id' => $request->input('fournisseur_id'),
+                'marque_id' => $request->input('marque_id')
+            ]);
+
+            $Produit =  DB::table('produits')
+            ->where('produits.id', $id)
+            ->where('produits.boutique_id', $ID_Boutique)
+            ->first();
+
+            DB::table('stocks')
+            ->where('stocks.id', $Produit->stock_id)
+            ->update([
+                'quantite' => $request->input('quantite'),
+            ]);
+
+            $image = $request->file('image');
+
+            if( $image ) {
+
+                $extension = $image->getClientOriginalExtension();
+                Storage::disk('public')->put('Produit/Produit-'.$id.'.'.$extension,  File::get($image));
+
+                DB::table('photos_produits')
+                ->where('photos_produits.produit_id', $id)
+                ->where('photos_produits.order', 0)
+                ->update([
+                    'src' =>  'Produit-'.$id.'.'.$extension
+                ]);
+
+            }
+
+            $categories = json_decode($request->get('categories'));
+
+            DB::table('categorie_produits')
+            ->where('categorie_produits.produit_id', '=', $id)
+            ->delete();
+
+            if($categories) {
+
+                for ($i=0; $i < count($categories) ; $i++) { 
+
+                    $CategoryProduit = new \App\categorie_produit;
+                    $CategoryProduit->produit_id = $id;
+                    $CategoryProduit->categorie_id = $categories[$i]->id;    
+                    $CategoryProduit->save();
+
+                }
+
+            }
+
+            return response()->json(array('id' => $id), 200);
+
+        }
+
+    }
+
+    public function showProduit($id) {
+
+        $ID_Boutique = $this->guard()->user()->boutique_id;
+
+        if($id) {
+
+            $Produit = DB::table('produits')
+            ->join('stocks', 'stocks.id', '=', 'produits.stock_id')
+            ->join('photos_produits', 'photos_produits.produit_id', '=', 'produits.id')
+            ->where('produits.boutique_id', '=', $ID_Boutique)
+            ->where('produits.id', '=', $id)
+            ->where('photos_produits.order', '=', '0')
+            ->select('produits.*', 'stocks.quantite as quantite', 'photos_produits.src as image')
+            ->first();
+
+            $CatgeorieProduit = DB::table('categorie_produits')
+            ->where('categorie_produits.produit_id', '=', $id)
+            ->get();
+
+            $Produit->categories=$CatgeorieProduit;
+
+            if($Produit) {
+                return response()->json($Produit, 200);
+            }else {
+                return response()->json(false, 404);
+            }
+
+        }
+
+    }
+
     public function DeleteProduit($id) {
 
         $Produit = new \App\produit;
@@ -151,14 +255,21 @@ class CatalogueController extends Controller {
 
     public function showCategory($id) {
 
-        $Categorys = new \App\categorie;
+        $ID_Boutique = $this->guard()->user()->boutique_id;
 
-        $Category = $Categorys::find($id);
+        if($id) {
 
-        if( $Category ) {
-            return $Category;
-        }else {
-            return response()->json(false);
+            $Categorie = DB::table('categories')
+            ->where('categories.id', '=', $id)
+            ->where('categories.boutique_id', '=', $ID_Boutique)
+            ->first();
+
+            if($Categorie) {
+                return response()->json($Categorie, 200);
+            }else {
+                return response()->json(false, 404);
+            }
+
         }
 
     }
@@ -202,7 +313,7 @@ class CatalogueController extends Controller {
 
             $Category->nom = $request->input('nom');
             $Category->description = $request->input('description');
-            $Category->utilisateur_id = $request->input('utilisateur_id');
+            $Category->status = $request->input('status');
             $Category->parent = $request->input('parent');
             $Category->update();
 

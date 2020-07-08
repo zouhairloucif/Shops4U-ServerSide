@@ -100,7 +100,7 @@ class ClientsController extends Controller {
 
     }
 
-     public function update(Request $request, $id) {
+    public function update(Request $request, $id) {
 
         $ID_Boutique = $this->guard()->user()->boutique_id;
 

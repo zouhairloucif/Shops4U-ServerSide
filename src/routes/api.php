@@ -32,9 +32,14 @@ Route::group([
 Route::group([
 	'prefix' => 'user'
 ], function ($router) {
-	Route::get('show', 'BackOffice\UserController@showUser');
 	Route::post('signup', 'BackOffice\UserController@signup');
-	Route::post('update', 'BackOffice\UserController@UpdateUser');
+	Route::get('showActive', 'BackOffice\UserController@showActive');
+	Route::post('updateActive', 'BackOffice\UserController@UpdateActive');
+	Route::get('all', 'BackOffice\UserController@all');
+	Route::get('show/{id}', 'BackOffice\UserController@show');
+	Route::post('store', 'BackOffice\UserController@store');
+	Route::post('update/{id}', 'BackOffice\UserController@update');
+	Route::delete('delete/{id}', 'BackOffice\UserController@delete');
 });
 
 /*-------  Api Produits  -------*/
@@ -44,6 +49,8 @@ Route::group([
 ], function ($router) {
 	Route::get('all', 'BackOffice\CatalogueController@AllProduits');
 	Route::post('store', 'BackOffice\CatalogueController@StoreProduit');
+	Route::get('show/{id}', 'BackOffice\CatalogueController@showProduit');
+	Route::post('update/{id}', 'BackOffice\CatalogueController@UpdateProduit');
 	Route::delete('delete/{id}', 'BackOffice\CatalogueController@DeleteProduit');
 });
 
@@ -55,7 +62,7 @@ Route::group([
 	Route::get('all', 'BackOffice\CatalogueController@AllCategory');
 	Route::get('show/{id}', 'BackOffice\CatalogueController@showCategory');
 	Route::post('store', 'BackOffice\CatalogueController@StoreCategory');
-	Route::put('update/{id}', 'BackOffice\CatalogueController@UpdateCategory');
+	Route::post('update/{id}', 'BackOffice\CatalogueController@UpdateCategory');
 	Route::delete('delete/{id}', 'BackOffice\CatalogueController@DeleteCategory');
 });
 
@@ -122,12 +129,18 @@ Route::group([
 ], function ($router) {
 	Route::post('zone/store', 'BackOffice\LivraisonController@storeZone');
 	Route::get('zone/all', 'BackOffice\LivraisonController@allZone');
+	Route::get('zone/show/{id}', 'BackOffice\LivraisonController@ShowZone');
+	Route::put('zone/update/{id}', 'BackOffice\LivraisonController@UpdateZone');
 	Route::delete('zone/delete/{id}', 'BackOffice\LivraisonController@DeleteZone');
 	Route::post('pays/store', 'BackOffice\LivraisonController@storePays');
 	Route::get('pays/all', 'BackOffice\LivraisonController@allPays');
+	Route::get('pays/show/{id}', 'BackOffice\LivraisonController@ShowPays');
+	Route::put('pays/update/{id}', 'BackOffice\LivraisonController@UpdatePays');
 	Route::delete('pays/delete/{id}', 'BackOffice\LivraisonController@DeletePays');
 	Route::post('ville/store', 'BackOffice\LivraisonController@storeVille');
 	Route::get('ville/all', 'BackOffice\LivraisonController@allVille');
+	Route::get('ville/show/{id}', 'BackOffice\LivraisonController@ShowVille');
+	Route::put('ville/update/{id}', 'BackOffice\LivraisonController@UpdateVille');
 	Route::delete('ville/delete/{id}', 'BackOffice\LivraisonController@DeleteVille');
 	Route::post('transporteur/store', 'BackOffice\LivraisonController@storeTransporteur');
 	Route::get('transporteur/all', 'BackOffice\LivraisonController@allTransporteur');

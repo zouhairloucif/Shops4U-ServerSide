@@ -18,7 +18,7 @@ class LivraisonController extends Controller {
 
     }
 
-    /* Transporteur */
+    /******************** Transporteur ********************/
 
     public function allTransporteur() {
 
@@ -117,7 +117,7 @@ class LivraisonController extends Controller {
 
     }
 
-    /* Zone */
+    /******************** Zone ********************/
 
     public function allZone() {
 
@@ -153,6 +153,46 @@ class LivraisonController extends Controller {
 
     }
 
+    public function ShowZone($id) {
+
+        $ID_Boutique = $this->guard()->user()->boutique_id;
+
+        if($id) {
+
+            $Zone = DB::table('zones')
+            ->where('zones.id', '=', $id)
+            ->where('zones.boutique_id', '=', $ID_Boutique)
+            ->select('zones.*')
+            ->first();
+
+            if($Zone) {
+                return response()->json($Zone, 200);
+            }else {
+                return response()->json(false, 404);
+            }
+
+        }
+
+    }
+
+     public function UpdateZone(Request $request, $id) {
+
+        $Zones = new \App\zones;
+
+        $Zone = $Zones::find($id);
+
+        if($Zone) {
+
+            $Zone->zone = $request->input('zone');
+            $Zone->status = $request->input('status');
+            $Zone->update();
+
+            return response()->json(array('id' => $Zone->id), 200);
+
+        }
+
+    }
+
     public function DeleteZone($id) {
 
         $Zones = new \App\zones;
@@ -172,7 +212,7 @@ class LivraisonController extends Controller {
     }
 
 
-    /* Ville */
+    /******************** Ville ********************/
 
     public function allVille() {
 
@@ -185,6 +225,47 @@ class LivraisonController extends Controller {
             ->get();
 
             return $Ville;
+
+        }
+
+    }
+
+     public function ShowVille($id) {
+
+        $ID_Boutique = $this->guard()->user()->boutique_id;
+
+        if($id) {
+
+            $Ville = DB::table('villes')
+            ->where('villes.id', '=', $id)
+            ->where('villes.boutique_id', '=', $ID_Boutique)
+            ->select('villes.*')
+            ->first();
+
+            if($Ville) {
+                return response()->json($Ville, 200);
+            }else {
+                return response()->json(false, 404);
+            }
+
+        }
+
+    }
+
+     public function UpdateVille(Request $request, $id) {
+
+        $Villes = new \App\ville;
+
+        $ville = $Villes::find($id);
+
+        if($ville) {
+
+            $ville->ville = $request->input('ville');
+            $ville->pays_id = $request->input('pays_id');
+            $ville->status = $request->input('status');
+            $ville->update();
+
+            return response()->json(array('id' => $ville->id), 200);
 
         }
 
@@ -228,7 +309,7 @@ class LivraisonController extends Controller {
     }
 
 
-    /* Pays */
+    /******************** Pays ********************/
 
     public function allPays() {
 
@@ -258,6 +339,47 @@ class LivraisonController extends Controller {
             $Pays->boutique_id = $id;
             $Pays->zone_id = $request->input('zone_id');
             $Pays->save();
+
+            return response()->json(array('id' => $Pays->id), 200);
+
+        }
+
+    }
+
+    public function ShowPays($id) {
+
+        $ID_Boutique = $this->guard()->user()->boutique_id;
+
+        if($id) {
+
+            $Pays = DB::table('pays')
+            ->where('pays.id', '=', $id)
+            ->where('pays.boutique_id', '=', $ID_Boutique)
+            ->select('pays.*')
+            ->first();
+
+            if($Pays) {
+                return response()->json($Pays, 200);
+            }else {
+                return response()->json(false, 404);
+            }
+
+        }
+
+    }
+
+     public function UpdatePays(Request $request, $id) {
+
+        $Payss = new \App\pays;
+
+        $Pays = $Payss::find($id);
+
+        if($Pays) {
+
+            $Pays->pays = $request->input('pays');
+            $Pays->zone_id = $request->input('zone_id');
+            $Pays->status = $request->input('status');
+            $Pays->update();
 
             return response()->json(array('id' => $Pays->id), 200);
 
