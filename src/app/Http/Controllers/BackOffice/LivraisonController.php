@@ -42,6 +42,35 @@ class LivraisonController extends Controller {
 
     }
 
+    public function ShowTransporteur($id) {
+
+        $ID_Boutique = $this->guard()->user()->boutique_id;
+
+        if($ID_Boutique) {
+
+            $Transporteur = DB::table('transporteurs')
+            ->where('transporteurs.boutique_id', '=', $ID_Boutique)
+            ->where('transporteurs.id', '=', $id)
+            ->first();
+
+            $ListLivraison = DB::table('livraisons')
+            ->where('livraisons.transporteur_id', '=', $id)
+            ->get();
+
+            $Transporteur->livraison=$ListLivraison;
+
+            $Transporteur->image = "http://localhost/Shops4U/src/storage/app/public/Transporteur/".$Transporteur->image;
+
+            if($Transporteur) {
+                return response()->json($Transporteur, 200);
+            }else {
+                return response()->json(false, 404);
+            }
+
+        }
+
+    }
+
     public function storeTransporteur(Request $request) {
 
         $id = $this->guard()->user()->boutique_id;
@@ -88,7 +117,69 @@ class LivraisonController extends Controller {
                     }
                     
                     $Livraison->save();
-               
+
+                }
+
+            }
+
+            return response()->json(array('id' => $Transporteur->id), 200);
+
+        }
+
+    }
+
+    public function updateTransporteur(Request $request,$id) {
+
+        $ID_Boutique = $this->guard()->user()->boutique_id;
+
+        if($ID_Boutique) {
+
+            $Transporteurs = new \App\transporteur;
+            $Transporteur = $Transporteurs::find($id);
+            $Transporteur->nom = $request->input('nom');
+            $Transporteur->type = $request->input('type');
+            $Transporteur->delai = $request->input('delai');
+            $Transporteur->status = $request->input('status');
+            $Transporteur->boutique_id = $ID_Boutique;
+            $Transporteur->update();
+
+            $image = $request->file('image');
+
+            if( $image ) {
+                $extension = $image->getClientOriginalExtension();
+                Storage::disk('public')->put('Transporteur/Transporteur-'.$Transporteur->id.'.'.$extension,  File::get($image));
+                $Transporteur->image = 'Transporteur-'.$Transporteur->id.'.'.$extension;
+                $Transporteur->update();
+            }
+
+            DB::table('livraisons')
+            ->where('livraisons.transporteur_id', '=', $id)
+            ->delete();
+
+            $LivraisonJson = json_decode($request->get('Livraison'));
+
+            if($LivraisonJson) {
+
+                for ($i=0; $i < count($LivraisonJson) ; $i++) { 
+
+                    $Livraison = new \App\livraison;
+                    $Livraison->transporteur_id = $Transporteur->id;
+                    $Livraison->prix = $LivraisonJson[$i]->val;
+
+                    if("zone"==$request->input('type')) {
+                        $Livraison->zone_id = $LivraisonJson[$i]->id;
+                    }
+
+                    if("pays"==$request->input('type')) {
+                        $Livraison->pays_id = $LivraisonJson[$i]->id;
+                    }
+
+                    if("ville"==$request->input('type')) {
+                        $Livraison->ville_id = $LivraisonJson[$i]->id;
+                    }
+                    
+                    $Livraison->save();
+
                 }
 
             }
@@ -175,7 +266,7 @@ class LivraisonController extends Controller {
 
     }
 
-     public function UpdateZone(Request $request, $id) {
+    public function UpdateZone(Request $request, $id) {
 
         $Zones = new \App\zones;
 
@@ -230,7 +321,7 @@ class LivraisonController extends Controller {
 
     }
 
-     public function ShowVille($id) {
+    public function ShowVille($id) {
 
         $ID_Boutique = $this->guard()->user()->boutique_id;
 
@@ -252,7 +343,7 @@ class LivraisonController extends Controller {
 
     }
 
-     public function UpdateVille(Request $request, $id) {
+    public function UpdateVille(Request $request, $id) {
 
         $Villes = new \App\ville;
 
@@ -368,7 +459,7 @@ class LivraisonController extends Controller {
 
     }
 
-     public function UpdatePays(Request $request, $id) {
+    public function UpdatePays(Request $request, $id) {
 
         $Payss = new \App\pays;
 

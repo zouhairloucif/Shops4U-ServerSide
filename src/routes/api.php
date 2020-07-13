@@ -143,7 +143,9 @@ Route::group([
 	Route::put('ville/update/{id}', 'BackOffice\LivraisonController@UpdateVille');
 	Route::delete('ville/delete/{id}', 'BackOffice\LivraisonController@DeleteVille');
 	Route::post('transporteur/store', 'BackOffice\LivraisonController@storeTransporteur');
+	Route::post('transporteur/update/{id}', 'BackOffice\LivraisonController@updateTransporteur');
 	Route::get('transporteur/all', 'BackOffice\LivraisonController@allTransporteur');
+	Route::get('transporteur/show/{id}', 'BackOffice\LivraisonController@ShowTransporteur');
 	Route::delete('transporteur/delete/{id}', 'BackOffice\LivraisonController@DeleteTransporteur');
 });
 

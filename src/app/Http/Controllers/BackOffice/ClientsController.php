@@ -17,6 +17,7 @@ class ClientsController extends Controller {
     public function __construct() {
 
         $this->middleware('jwt', ['except' => ['signup']]);
+        
     }
 
     public function store(Request $request) {
